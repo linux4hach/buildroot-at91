@@ -48,6 +48,10 @@ choice
 		bool "gdb 7.5.x"
 		depends on !BR2_bfin
 
+   config BR2_GDB_VERSION_7_7
+		bool "gdb 7.7.x"
+		depends on !BR2_bfin
+
 endchoice
 
 config BR2_GDB_VERSION
@@ -59,5 +63,6 @@ config BR2_GDB_VERSION
 	default "7.4.1"    if BR2_GDB_VERSION_7_4
 	default "7.5.1"    if BR2_GDB_VERSION_7_5
 	default "7.5.1-arc" if BR2_arc
+   default "7.7.1"    if BR2_GDB_VERSION_7_7
 
 endif

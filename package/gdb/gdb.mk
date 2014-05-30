@@ -77,7 +77,8 @@ GDB_CONF_OPT = \
 	$(if $(BR2_PACKAGE_GDB_SERVER),--enable-gdbserver) \
 	--with-curses \
 	--without-included-gettext \
-	--disable-werror
+	--disable-werror \
+   #--with-python=python2.7
 
 # This removes some unneeded Python scripts and XML target description
 # files that are not useful for a normal usage of the debugger.
