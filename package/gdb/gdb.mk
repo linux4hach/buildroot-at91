@@ -81,7 +81,7 @@ GDB_CONF_OPT = \
 	--with-curses \
 	--without-included-gettext \
 	--disable-werror \
-   --with-python=$(PACKAGE_DIR)/gdb/python2.7-config
+   #--with-python=$(PACKAGE_DIR)/gdb/python2.7-config
 
 # This removes some unneeded Python scripts and XML target description
 # files that are not useful for a normal usage of the debugger.
