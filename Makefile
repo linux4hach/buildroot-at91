@@ -289,6 +289,7 @@ endif
 export BUILDROOT_CONFIG
 export TARGET_DIR
 export STAGING_DIR
+export PACKAGE_DIR
 export HOST_DIR
 export BINARIES_DIR
 export BASE_DIR

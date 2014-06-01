@@ -56,6 +56,9 @@ GDB_PRE_PATCH_HOOKS += GDB_XTENSA_PRE_PATCH
 HOST_GDB_PRE_PATCH_HOOKS += GDB_XTENSA_PRE_PATCH
 endif
 
+
+
+
 GDB_CONF_ENV = \
 	ac_cv_prog_MAKEINFO=missing \
 	ac_cv_type_uintptr_t=yes \
@@ -78,7 +81,7 @@ GDB_CONF_OPT = \
 	--with-curses \
 	--without-included-gettext \
 	--disable-werror \
-   #--with-python=python2.7
+   --with-python=$(PACKAGE_DIR)/gdb/python2.7-config
 
 # This removes some unneeded Python scripts and XML target description
 # files that are not useful for a normal usage of the debugger.

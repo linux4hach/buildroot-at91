@@ -1,5 +1,6 @@
 #! /bin/bash
 
+
 # echo "Running script"
 
 if [ $# -ne 2 ]
@@ -11,10 +12,10 @@ fi
 # The first argument is the path to python-config.py, ignore it.
 
 case "$2" in
---includes) echo "-I/usr/include/python2.7 -I/usr/include/python2.7" ;;
---ldflags) echo "-lpthread -ldl -lpthread -lutil -lm -lpython2.7 -Xlinker -export-dynamic" ;;
+   --includes) echo "-I${$STAGING_DIR}usr/include/python2.7 -I/usr/include/python2.7" ;;
+--ldflags) echo "-lpthread -ldl -lutil -lm -lpython2.7 -Xlinker -export-dynamic -Wl,-O1 -Wl,-Bsymbolic-functions" ;;
 --exec-prefix) echo "/usr" ;;
---cflags) echo "-I/usr/include/python2.7 -I/usr/include/python2.7 -fno-strict-aliasing -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -pipe -Os -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes";;
+--cflags) echo "strict-prototypes -D_FORTIFY_SOURCE=2 -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security";;
 *) echo "Bad arg $2.  Blech!" >&2 ; exit 1 ;
 esac
 

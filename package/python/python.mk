@@ -19,6 +19,7 @@ PYTHON_LICENSE_FILES = LICENSE
 
 HOST_PYTHON_CONF_OPT += 	\
 	--enable-static		\
+	--enable-shared
 	--without-cxx-main 	\
 	--disable-sqlite3	\
 	--disable-tk		\
