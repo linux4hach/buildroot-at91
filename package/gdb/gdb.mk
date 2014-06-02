@@ -38,12 +38,12 @@ ifeq ($(BR2_PACKAGE_GDB_DEBUGGER),)
 GDB_SUBDIR = gdb/gdbserver
 HOST_GDB_SUBDIR = .
 else
-GDB_DEPENDENCIES = ncurses
+GDB_DEPENDENCIES = ncurses python
 endif
 
 # For the host variant, we really want to build with XML support,
 # which is needed to read XML descriptions of target architectures.
-HOST_GDB_DEPENDENCIES = host-expat
+HOST_GDB_DEPENDENCIES = host-expat python
 
 # Apply the Xtensa specific patches
 XTENSA_CORE_NAME = $(call qstrip, $(BR2_XTENSA_CORE_NAME))
