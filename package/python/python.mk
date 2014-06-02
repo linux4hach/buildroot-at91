@@ -18,8 +18,7 @@ PYTHON_LICENSE_FILES = LICENSE
 # third-party Python modules.
 
 HOST_PYTHON_CONF_OPT += 	\
-	--enable-static		\
-	--enable-shared
+	--enable-shared \
 	--without-cxx-main 	\
 	--disable-sqlite3	\
 	--disable-tk		\
