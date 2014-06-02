@@ -81,8 +81,7 @@ GDB_CONF_OPT = \
 	--with-curses \
 	--without-included-gettext \
 	--disable-werror \
-   #--with-python=$(PACKAGE_DIR)/gdb/python2.7-config
-
+   
 # This removes some unneeded Python scripts and XML target description
 # files that are not useful for a normal usage of the debugger.
 define GDB_REMOVE_UNNEEDED_FILES
@@ -122,7 +121,9 @@ HOST_GDB_CONF_OPT = \
 	--enable-threads \
 	--disable-werror \
 	--without-included-gettext \
-	--disable-sim
+	--disable-sim \
+   --with-python=$(HOST_DIR)/usr/bin/python2.7
+
 
 # legacy $arch-linux-gdb symlink
 define HOST_GDB_ADD_SYMLINK
