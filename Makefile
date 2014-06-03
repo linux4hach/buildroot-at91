@@ -103,6 +103,7 @@ STAMP_DIR:=$(BASE_DIR)/stamps
 BINARIES_DIR:=$(BASE_DIR)/images
 TARGET_DIR:=$(BASE_DIR)/target
 PACKAGE_DIR:=$(TOPDIR)/package
+SCRIPTS_DIR:=$(TOPDIR)/support/scripts
 STAGING_DIR:=$(BASE_DIR)/staging
 # initial definition so that 'make clean' works for most users, even without
 # .config. HOST_DIR will be overwritten later when .config is included.
@@ -293,7 +294,7 @@ export PACKAGE_DIR
 export HOST_DIR
 export BINARIES_DIR
 export BASE_DIR
-
+export SCRIPTS_DIR
 ################################################################################
 #
 # You should probably leave this stuff alone unless you know
