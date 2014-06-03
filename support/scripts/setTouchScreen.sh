@@ -1,7 +1,10 @@
 #!/bin/bash
 SEARCH_CRITERIA="QWS_MOUSE_PROTO"
 PROFILE="${TARGET_DIR}/etc/profile"
-if [grep -q $SEARCH_CRITERIA $PROFILE]==0; then 
+RESULTS_OF_SEARCH=$(grep -c $SEARCH_CRITERIA $PROFILE)
+
+if "$RESULTS_OF_SEARCH" == $SEARCH_CRITERIA
+then 
    echo -e "\n" >> $PROFILE
    echo "# These lines set up the Touch Screen for use" >> $PROFILE
    echo "export TSLIB_TSDEVICE=/dev/input/event1" >> $PROFILE 
