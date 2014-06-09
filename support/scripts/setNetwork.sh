@@ -9,5 +9,8 @@ echo "$RESULT_FROM_COMPARISON"
 if [ "$RESULT_FROM_COMPARISON" == "$NONE_FOUND" ] 
 then
    echo "auto eth0" >> $INTERFACES_FILE 
-   echo "iface eth0 inet dhcp" >> $INTERFACES_FILE
+   echo "iface eth0 inet static" >> $INTERFACES_FILE
+   echo "address 192.168.1.2" >> $INTERFACES_FILE
+   echo "address 255.255.128.0" >> $INTERFACES_FILE
+
 fi
