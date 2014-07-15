@@ -11,4 +11,5 @@ chown  -R nobody /mnt/tftpboot
 
 echo "Changing the var/empty directory to have no permissions for group or all write"
 chmod -R ag-w /mnt/tftpboot/rootfs/var/empty
+chown -R root /mnt/tftpboot/rootfs/var/empty
 
