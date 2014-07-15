@@ -15,5 +15,4 @@ then
 
 
 
->>>>>>> at91sam9g35-rt
 fi
