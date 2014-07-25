@@ -19,6 +19,9 @@ then
    echo "export TSLIB_CONFFILE=/etc/ts.conf" >> $PROFILE
    echo "export TSLIB_CALIBFILE=/etc/pointercal" >> $PROFILE
    echo "export QWS_MOUSE_PROTO=\"Tslib:/dev/input/event0\"" >> $PROFILE
+   echo "" >> $PROFILE
+   echo "#I added this line to enable the temporary keyboard" >> $PROFILE
+   echo "export QWS_KEYBOARD=\"LinuxInput:/dev/input/event0\"" >> $PROFILE
 
 fi
 
