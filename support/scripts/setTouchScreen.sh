@@ -14,14 +14,11 @@ if [ "$RESULTS_OF_SEARCH" == "$NONE_FOUND" ]
 then 
    echo -e "\n" >> $PROFILE
    echo "# These lines set up the Touch Screen for use" >> $PROFILE
-   echo "export TSLIB_TSDEVICE=/dev/input/event0" >> $PROFILE 
+   echo "export TSLIB_TSDEVICE=/dev/input/event1" >> $PROFILE 
    echo "export TSLIB_TSEVENTTYPE=INPUT" >> $PROFILE
    echo "export TSLIB_CONFFILE=/etc/ts.conf" >> $PROFILE
    echo "export TSLIB_CALIBFILE=/etc/pointercal" >> $PROFILE
-   echo "export QWS_MOUSE_PROTO=\"Tslib:/dev/input/event0\"" >> $PROFILE
-   echo "" >> $PROFILE
-   echo "#I added this line to enable the temporary keyboard" >> $PROFILE
-   echo "export QWS_KEYBOARD=\"LinuxInput:/dev/input/event0\"" >> $PROFILE
+   echo "export QWS_MOUSE_PROTO=\"Tslib:/dev/input/event1\"" >> $PROFILE
 
 fi
 
