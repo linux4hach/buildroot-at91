@@ -4,7 +4,7 @@ echo "Deleting old rootfs in /server/tftpboot/rootfs"
 rm -rf /srv/tftpboot/rootfs/*
 
 echo "Uncompressing rootfs to /server/tftpboot/rootfs" 
-tar zxvf output/images/rootfs.tar.gz -C /server/tftpboot/rootfs 
+tar zxvf output/images/rootfs.tar.gz -C /srv/tftpboot/rootfs 
 
 echo "Changing permissions to nobody"
 chown  -R nobody /srv/tftpboot
