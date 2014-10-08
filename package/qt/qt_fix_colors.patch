@@ -1,11 +1,25 @@
-diff --git a/qt_fix_colors.patch b/qt-4.8.5.new/qt_fix_colors.patch
+diff --git a/qt-4.8.5.new/qt_fix_colors.patch b/qt-4.8.5.new/qt_fix_colors.patch
 new file mode 100644
 index 0000000..e69de29
-diff --git a/src/gui/embedded/qscreenlinuxfb_qws.cpp b/qt-4.8.5.new/src/gui/embedded/qscreenlinuxfb_qws.cpp
-index 91f1207..59afffd 100644
---- a/src/gui/embedded/qscreenlinuxfb_qws.cpp
-+++ b/src/gui/embedded/qscreenlinuxfb_qws.cpp
-@@ -1316,12 +1316,12 @@ void QLinuxFbScreen::setPixelFormat(struct fb_var_screeninfo info)
+diff --git a/qt-4.8.5.orig/src/gui/embedded/qscreenlinuxfb_qws.cpp b/qt-4.8.5.new/src/gui/embedded/qscreenlinuxfb_qws.cpp
+index 91f1207..3da8544 100644
+--- a/qt-4.8.5.orig/src/gui/embedded/qscreenlinuxfb_qws.cpp
++++ b/qt-4.8.5.new/src/gui/embedded/qscreenlinuxfb_qws.cpp
+@@ -359,7 +359,13 @@ bool QLinuxFbScreen::connect(const QString &displaySpec)
+     fixupScreenInfo(finfo, vinfo);
+ 
+     grayscale = vinfo.grayscale;
++    vinfo.bits_per_pixel=16;
++    vinfo.red.length = 5;
++    vinfo.green.length = 6;
++    vinfo.blue.length = 5;
++
+     d = vinfo.bits_per_pixel;
++    
+     if (d == 24) {
+         d = vinfo.red.length + vinfo.green.length + vinfo.blue.length;
+         if (d <= 0)
+@@ -1316,12 +1322,12 @@ void QLinuxFbScreen::setPixelFormat(struct fb_var_screeninfo info)
                                         {0, 8, 0}, {0, 0, 0}};
          const fb_bitfield bgr888[4] = {{0, 8, 0}, {8, 8, 0},
                                         {16, 8, 0}, {0, 0, 0}};
