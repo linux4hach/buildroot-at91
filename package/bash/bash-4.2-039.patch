@@ -16,7 +16,7 @@ expressions even when evaluation is being suppressed.
 Patch (apply with `patch -p0'):
 
 *** ../bash-4.2-patched/expr.c	2011-11-21 18:03:35.000000000 -0500
---- expr.c	2012-09-09 16:31:18.000000000 -0400
+--- ./expr.c	2012-09-09 16:31:18.000000000 -0400
 ***************
 *** 1010,1013 ****
 --- 1073,1082 ----
@@ -42,7 +42,7 @@ Patch (apply with `patch -p0'):
         FREE (tokstr);
         tokstr = savestring (tp);
 *** ../bash-4.2-patched/patchlevel.h	Sat Jun 12 20:14:48 2010
---- patchlevel.h	Thu Feb 24 21:41:34 2011
+--- ./patchlevel.h	Thu Feb 24 21:41:34 2011
 ***************
 *** 26,30 ****
      looks for to find the patch level (for the sccs version string). */
@@ -56,3 +56,4 @@ Patch (apply with `patch -p0'):
 ! #define PATCHLEVEL 39
   
   #endif /* _PATCHLEVEL_H_ */
+

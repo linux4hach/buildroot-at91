@@ -17,7 +17,7 @@ commands.
 Patch (apply with `patch -p0'):
 
 *** ../bash-4.2-patched/redir.c	2013-01-30 11:56:09.000000000 -0500
---- redir.c	2013-02-19 09:38:36.000000000 -0500
+--- ./redir.c	2013-02-19 09:38:36.000000000 -0500
 ***************
 *** 1008,1011 ****
 --- 1008,1021 ----
@@ -37,7 +37,7 @@ Patch (apply with `patch -p0'):
   	  check_bash_input (redirector);
 
 *** ../bash-4.2-patched/patchlevel.h	Sat Jun 12 20:14:48 2010
---- patchlevel.h	Thu Feb 24 21:41:34 2011
+--- ./patchlevel.h	Thu Feb 24 21:41:34 2011
 ***************
 *** 26,30 ****
      looks for to find the patch level (for the sccs version string). */

@@ -17,7 +17,7 @@ function is later copied.
 Patch (apply with `patch -p0'):
 
 *** ../bash-4.2.51/make_cmd.c	2009-09-11 17:26:12.000000000 -0400
---- make_cmd.c	2014-10-02 11:26:58.000000000 -0400
+--- ./make_cmd.c	2014-10-02 11:26:58.000000000 -0400
 ***************
 *** 690,693 ****
 --- 690,694 ----
@@ -27,7 +27,7 @@ Patch (apply with `patch -p0'):
     temp->instruction = instruction;
     temp->flags = 0;
 *** ../bash-4.2.51/copy_cmd.c	2009-09-11 16:28:02.000000000 -0400
---- copy_cmd.c	2014-10-02 11:26:58.000000000 -0400
+--- ./copy_cmd.c	2014-10-02 11:26:58.000000000 -0400
 ***************
 *** 127,131 ****
       case r_reading_until:
@@ -42,7 +42,7 @@ Patch (apply with `patch -p0'):
         /*FALLTHROUGH*/
       case r_reading_string:
 *** ../bash-4.2-patched/patchlevel.h	Sat Jun 12 20:14:48 2010
---- patchlevel.h	Thu Feb 24 21:41:34 2011
+--- ./patchlevel.h	Thu Feb 24 21:41:34 2011
 ***************
 *** 26,30 ****
      looks for to find the patch level (for the sccs version string). */

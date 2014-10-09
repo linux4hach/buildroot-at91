@@ -18,7 +18,7 @@ strings.
 Patch (apply with `patch -p0'):
 
 *** ../bash-4.2-patched/general.c	2010-12-12 15:06:27.000000000 -0500
---- general.c	2014-01-30 16:46:15.000000000 -0500
+--- ./general.c	2014-01-30 16:46:15.000000000 -0500
 ***************
 *** 767,771 ****
   
@@ -33,7 +33,7 @@ Patch (apply with `patch -p0'):
     nbeg[nlen] = '\0';
   
 *** ../bash-4.2-patched/patchlevel.h	Sat Jun 12 20:14:48 2010
---- patchlevel.h	Thu Feb 24 21:41:34 2011
+--- ./patchlevel.h	Thu Feb 24 21:41:34 2011
 ***************
 *** 26,30 ****
      looks for to find the patch level (for the sccs version string). */
