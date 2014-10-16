@@ -53,7 +53,8 @@ DATE:=$(shell date +%Y%m%d)
 
 # Compute the full local version string so packages can use it as-is
 # Need to export it, so it can be got from environment in children (eg. mconf)
-export BR2_VERSION_FULL:=$(BR2_VERSION)$(shell $(TOPDIR)/support/scripts/setlocalversion)
+# export BR2_VERSION_FULL:=$(BR2_VERSION)$(shell $(TOPDIR)/support/scripts/setlocalversion)
+export BR2_VERSION_FULL:=$(BR2_VERSION)
 
 noconfig_targets:=menuconfig nconfig gconfig xconfig config oldconfig randconfig \
 	%_defconfig allyesconfig allnoconfig silentoldconfig release \
