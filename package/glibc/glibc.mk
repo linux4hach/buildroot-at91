@@ -4,13 +4,13 @@
 #
 ################################################################################
 
+GLIBC_VERSION = $(call qstrip,$(BR2_GLIBC_VERSION_STRING))
+
 ifeq ($(BR2_TOOLCHAIN_BUILDROOT_EGLIBC),y)
-GLIBC_VERSION = 2.17-svnr22064
-GLIBC_SITE = http://downloads.yoctoproject.org/releases/eglibc/
+GLIBC_SITE = http://downloads.yoctoproject.org/releases/eglibc
 GLIBC_SOURCE = eglibc-$(GLIBC_VERSION).tar.bz2
 GLIBC_SRC_SUBDIR = libc
 else
-GLIBC_VERSION = 2.18
 GLIBC_SITE = $(BR2_GNU_MIRROR)/libc
 GLIBC_SOURCE = glibc-$(GLIBC_VERSION).tar.xz
 GLIBC_SRC_SUBDIR = .
@@ -19,12 +19,12 @@ endif
 GLIBC_LICENSE = GPLv2+ (programs), LGPLv2.1+, BSD-3c, MIT (library)
 GLIBC_LICENSE_FILES = $(addprefix $(GLIBC_SRC_SUBDIR)/,COPYING COPYING.LIB LICENSES)
 
+# glibc is part of the toolchain so disable the toolchain dependency
+GLIBC_ADD_TOOLCHAIN_DEPENDENCY = NO
+
 # Before (e)glibc is configured, we must have the first stage
 # cross-compiler and the kernel headers
 GLIBC_DEPENDENCIES = host-gcc-initial linux-headers host-gawk
-
-# Before (e)glibc is built, we must have the second stage cross-compiler
-glibc-build: host-gcc-intermediate
 
 GLIBC_SUBDIR = build
 
@@ -127,3 +127,6 @@ define GLIBC_INSTALL_TARGET_CMDS
 endef
 
 $(eval $(autotools-package))
+
+# Before (e)glibc is built, we must have the second stage cross-compiler
+$(GLIBC_TARGET_BUILD): | host-gcc-intermediate

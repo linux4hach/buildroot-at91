@@ -4,15 +4,15 @@
 #
 ################################################################################
 
-CZMQ_VERSION = cb9839cf90e4ac69acb7c6ff2b4e2d42d704cf6e
-CZMQ_SITE = git://github.com/zeromq/czmq.git
+CZMQ_VERSION = v2.2.0
+CZMQ_SITE = $(call github,zeromq,czmq,$(CZMQ_VERSION))
 
 # Autoreconf required as we use the git tree
 CZMQ_AUTORECONF = YES
 CZMQ_INSTALL_STAGING = YES
 CZMQ_DEPENDENCIES = zeromq
-CZMQ_LICENSE = LGPLv3+ with exceptions
-CZMQ_LICENSE_FILES = COPYING COPYING.LESSER
+CZMQ_LICENSE = MPLv2.0
+CZMQ_LICENSE_FILES = LICENSE
 
 # asciidoc is a python script that imports unicodedata, which is not in
 # host-python, so disable asciidoc entirely.

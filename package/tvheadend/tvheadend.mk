@@ -4,23 +4,42 @@
 #
 ################################################################################
 
-TVHEADEND_VERSION           = 2b649954346aa2e9c81834d500a25c528f31f829
-TVHEADEND_SITE              = git://github.com/tvheadend/tvheadend.git
-TVHEADEND_LICENSE           = GPLv3+
-TVHEADEND_LICENSE_FILES     = LICENSE
-TVHEADEND_DEPENDENCIES      = host-pkgconf host-python openssl
+TVHEADEND_VERSION = f72733ff08be069620e7247e191d4f0899a2638a
+TVHEADEND_SITE = $(call github,tvheadend,tvheadend,$(TVHEADEND_VERSION))
+TVHEADEND_LICENSE = GPLv3+
+TVHEADEND_LICENSE_FILES = LICENSE.md
+TVHEADEND_DEPENDENCIES = host-pkgconf host-python openssl
 
 ifeq ($(BR2_PACKAGE_AVAHI),y)
-TVHEADEND_DEPENDENCIES     += avahi
+TVHEADEND_DEPENDENCIES += avahi
 endif
 
-#----------------------------------------------------------------------------
-# tvheadend is a little smuggler and thief! ;-)
-# During the ./configure, it downloads some files from the dvb-apps
-# package, so it has a list of pre-scanned tunner configurations.
-# For buildroot, we add a patch that avoids doing that, but uses the
-# scan files installed by the dvb-apps package
-TVHEADEND_DEPENDENCIES     += dvb-apps
+ifeq ($(BR2_PACKAGE_LIBICONV),y)
+TVHEADEND_DEPENDENCIES += libiconv
+endif
+
+TVHEADEND_DEPENDENCIES += dtv-scan-tables
+
+define TVHEADEND_CONFIGURE_CMDS
+	(cd $(@D);				\
+	 $(TARGET_CONFIGURE_OPTS)		\
+	 $(TARGET_CONFIGURE_ARGS)		\
+	 ./configure				\
+	 --prefix=/usr				\
+	 --arch="$(ARCH)"			\
+	 --cpu="$(BR2_GCC_TARGET_CPU)"		\
+	 --python="$(HOST_DIR)/usr/bin/python"	\
+	 --disable-dvbscan			\
+	)
+endef
+
+define TVHEADEND_BUILD_CMDS
+	$(MAKE) -C $(@D)
+endef
+
+define TVHEADEND_INSTALL_TARGET_CMDS
+	$(MAKE) -C $(@D) DESTDIR="$(TARGET_DIR)" install
+endef
 
 #----------------------------------------------------------------------------
 # To run tvheadend, we need:
@@ -43,7 +62,4 @@ define TVHEADEND_USERS
 tvheadend -1 tvheadend -1 * /home/tvheadend - video TVHeadend daemon
 endef
 
-#----------------------------------------------------------------------------
-# tvheadend is not an autotools-based package, but it is possible to
-# call its ./configure script as if it were an autotools one.
-$(eval $(autotools-package))
+$(eval $(generic-package))

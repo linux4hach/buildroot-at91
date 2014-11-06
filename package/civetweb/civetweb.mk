@@ -5,7 +5,7 @@
 ################################################################################
 
 CIVETWEB_VERSION = v1.3
-CIVETWEB_SITE = http://github.com/sunsetbrew/civetweb/tarball/$(CIVETWEB_VERSION)
+CIVETWEB_SITE = $(call github,sunsetbrew,civetweb,$(CIVETWEB_VERSION))
 CIVETWEB_LICENSE = MIT
 CIVETWEB_LICENSE_FILES = LICENSE.md
 
@@ -53,4 +53,3 @@ define CIVETWEB_INSTALL_TARGET_CMDS
 endef
 
 $(eval $(generic-package))
-

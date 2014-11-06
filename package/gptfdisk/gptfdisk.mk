@@ -6,6 +6,8 @@
 
 GPTFDISK_VERSION = 0.8.6
 GPTFDISK_SITE = http://downloads.sourceforge.net/sourceforge/gptfdisk
+GPTFDISK_LICENSE = GPLv2+
+GPTFDISK_LICENSE_FILES = COPYING
 
 GPTFDISK_TARGETS_$(BR2_PACKAGE_GPTFDISK_GDISK) += gdisk
 GPTFDISK_TARGETS_$(BR2_PACKAGE_GPTFDISK_SGDISK) += sgdisk
@@ -33,10 +35,6 @@ define GPTFDISK_INSTALL_TARGET_CMDS
 	for i in $(GPTFDISK_TARGETS_y); do \
 	    $(INSTALL) -D -m 0755 $(@D)/$$i $(TARGET_DIR)/usr/sbin/$$i; \
 	done
-endef
-
-define GPTFDISK_UNINSTALL_TARGET_CMDS
-	rm -f $(addprefix $(TARGET_DIR)/usr/sbin/,$(GPTFDISK_TARGETS_y))
 endef
 
 $(eval $(generic-package))

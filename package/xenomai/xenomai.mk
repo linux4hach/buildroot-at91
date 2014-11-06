@@ -6,10 +6,10 @@
 
 XENOMAI_VERSION = $(call qstrip,$(BR2_PACKAGE_XENOMAI_VERSION))
 ifeq ($(XENOMAI_VERSION),)
-XENOMAI_VERSION = 2.6.2.1
+XENOMAI_VERSION = 2.6.3
 endif
 
-XENOMAI_SITE = http://download.gna.org/xenomai/stable/
+XENOMAI_SITE = http://download.gna.org/xenomai/stable
 XENOMAI_SOURCE = xenomai-$(XENOMAI_VERSION).tar.bz2
 XENOMAI_LICENSE = headers: GPLv2+ with exception, libraries: LGPLv2.1+, kernel: GPLv2+, docs: GFDLv1.2+, ipipe patch and can driver: GPLv2
 # GFDL is not included but refers to gnu.org
@@ -19,7 +19,7 @@ XENOMAI_INSTALL_STAGING = YES
 XENOMAI_INSTALL_TARGET_OPT = DESTDIR=$(TARGET_DIR) install-user
 XENOMAI_INSTALL_STAGING_OPT = DESTDIR=$(STAGING_DIR) install-user
 
-XENOMAI_CONF_OPT += --includedir=/usr/include/xenomai/
+XENOMAI_CONF_OPT += --includedir=/usr/include/xenomai/ --disable-doc-install
 
 define XENOMAI_REMOVE_DEVFILES
 	for i in xeno-config xeno-info wrap-link.sh ; do \
@@ -93,7 +93,7 @@ define XENOMAI_DEVICES
 /dev/rtp     c  666  0  0  150 0    0  1  32
 endef
 
-ifeq ($(BR2_ROOTFS_DEVICE_CREATION_DYNAMIC_UDEV),y)
+ifeq ($(BR2_PACKAGE_HAS_UDEV),y)
 XENOMAI_DEPENDENCIES += udev
 
 define XENOMAI_INSTALL_UDEV_RULES

@@ -10,11 +10,11 @@ EBTABLES_SITE = http://downloads.sourceforge.net/project/ebtables/ebtables/ebtab
 EBTABLES_LICENSE = GPLv2+
 EBTABLES_LICENSE_FILES = COPYING
 EBTABLES_STATIC = $(if $(BR2_PREFER_STATIC_LIB),static)
-EBTABLES_K64U32 = $(if $(BR2_KERNEL_64_USERLAND_32),CFLAGS+="-DKERNEL_64_USERSPACE_32")
+EBTABLES_K64U32 = $(if $(BR2_KERNEL_64_USERLAND_32),-DKERNEL_64_USERSPACE_32)
 
 define EBTABLES_BUILD_CMDS
 	$(MAKE) $(TARGET_CONFIGURE_OPTS) LIBDIR=/lib/ebtables $(EBTABLES_STATIC) \
-		$(EBTABLES_K64U32) -C $(@D)
+		CFLAGS="$(TARGET_CFLAGS) $(EBTABLES_K64U32)" -C $(@D)
 endef
 
 ifeq ($(BR2_PREFER_STATIC_LIB),y)
@@ -35,10 +35,5 @@ define EBTABLES_INSTALL_TARGET_CMDS
 	$(INSTALL) -m 0644 -D $(@D)/ethertypes $(TARGET_DIR)/etc/ethertypes
 endef
 endif
-
-define EBTABLES_UNINSTALL_TARGET_CMDS
-	rm -rf $(TARGET_DIR)/lib/ebtables
-	rm -f $(TARGET_DIR)/sbin/ebtables
-endef
 
 $(eval $(generic-package))

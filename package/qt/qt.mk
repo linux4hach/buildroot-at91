@@ -11,9 +11,10 @@
 #
 ################################################################################
 
-QT_VERSION = 4.8.5
+QT_VERSION_MAJOR = 4.8
+QT_VERSION = $(QT_VERSION_MAJOR).6
 QT_SOURCE  = qt-everywhere-opensource-src-$(QT_VERSION).tar.gz
-QT_SITE    = http://download.qt-project.org/official_releases/qt/4.8/$(QT_VERSION)
+QT_SITE    = http://download.qt-project.org/official_releases/qt/$(QT_VERSION_MAJOR)/$(QT_VERSION)
 QT_DEPENDENCIES = host-pkgconf
 QT_INSTALL_STAGING = YES
 
@@ -58,9 +59,14 @@ QT_CONFIGURE_OPTS += -no-qt3support
 endif
 
 ifeq ($(BR2_PACKAGE_QT_DEMOS),y)
-QT_CONFIGURE_OPTS += -examplesdir $(TARGET_DIR)/usr/share/qt/examples -demosdir $(TARGET_DIR)/usr/share/qt/demos
+QT_CONFIGURE_OPTS += -demosdir $(TARGET_DIR)/usr/share/qt/demos
 else
-QT_CONFIGURE_OPTS += -nomake examples -nomake demos
+QT_CONFIGURE_OPTS += -nomake demos
+endif
+ifeq ($(BR2_PACKAGE_QT_EXAMPLES),y)
+QT_CONFIGURE_OPTS += -examplesdir $(TARGET_DIR)/usr/share/qt/examples
+else
+QT_CONFIGURE_OPTS += -nomake examples
 endif
 
 # ensure glib is built first if enabled for Qt's glib support
@@ -211,11 +217,6 @@ endif
 
 ifeq ($(BR2_arm)$(BR2_armeb),y)
 QT_EMB_PLATFORM = arm
-ifeq ($(BR2_GCC_VERSION_4_6_X),y)
-# workaround for gcc issue
-# http://gcc.gnu.org/ml/gcc-patches/2010-11/msg02245.html
-QT_CXXFLAGS += -fno-strict-volatile-bitfields
-endif
 else ifeq ($(BR2_avr32),y)
 QT_EMB_PLATFORM = avr32
 else ifeq ($(BR2_i386),y)
@@ -335,13 +336,15 @@ QT_CONFIGURE_OPTS += -qt-sql-ibase
 endif
 ifeq ($(BR2_PACKAGE_QT_MYSQL),y)
 QT_CONFIGURE_OPTS += -qt-sql-mysql -mysql_config $(STAGING_DIR)/usr/bin/mysql_config
-QT_DEPENDENCIES   += mysql_client
+QT_DEPENDENCIES   += mysql
 endif
 ifeq ($(BR2_PACKAGE_QT_ODBC),y)
 QT_CONFIGURE_OPTS += -qt-sql-odbc
 endif
 ifeq ($(BR2_PACKAGE_QT_PSQL),y)
 QT_CONFIGURE_OPTS += -qt-sql-psql
+QT_CONFIGURE_ENV  += PSQL_LIBS=-L$(STAGING_DIR)/usr/lib
+QT_DEPENDENCIES   += postgresql
 endif
 ifeq ($(BR2_PACKAGE_QT_SQLITE_QT),y)
 QT_CONFIGURE_OPTS += -qt-sql-sqlite
@@ -502,6 +505,7 @@ define QT_CONFIGURE_CMDS
 		PKG_CONFIG_SYSROOT_DIR="$(STAGING_DIR)" \
 		PKG_CONFIG="$(PKG_CONFIG_HOST_BINARY)" \
 		PKG_CONFIG_PATH="$(STAGING_DIR)/usr/lib/pkgconfig:$(PKG_CONFIG_PATH)" \
+		$(QT_CONFIGURE_ENV) \
 		MAKEFLAGS="$(MAKEFLAGS) -j$(PARALLEL_JOBS)" ./configure \
 		$(if $(VERBOSE),-verbose,-silent) \
 		-force-pkg-config \
@@ -580,6 +584,9 @@ endif
 ifeq ($(BR2_PACKAGE_QT_GFX_POWERVR),y)
 QT_INSTALL_LIBS    += pvrQWSWSEGL
 endif
+ifeq ($(BR2_PACKAGE_QT_TEST),y)
+QT_INSTALL_LIBS    += QtTest
+endif
 
 QT_CONF_FILE=$(HOST_DIR)/usr/bin/qt.conf
 
@@ -619,6 +626,7 @@ endef
 # Library installation
 ifeq ($(BR2_PACKAGE_QT_SHARED),y)
 define QT_INSTALL_TARGET_LIBS
+	mkdir -p $(TARGET_DIR)/usr/lib
 	for lib in $(QT_INSTALL_LIBS); do \
 		cp -dpf $(STAGING_DIR)/usr/lib/lib$${lib}.so.* $(TARGET_DIR)/usr/lib ; \
 	done
@@ -665,12 +673,14 @@ define QT_INSTALL_TARGET_POWERVR
 endef
 endif
 
+ifeq ($(BR2_PACKAGE_QT_TRANSLATION_FILES),y)
 define QT_INSTALL_TARGET_TRANSLATIONS
 	if [ -d $(STAGING_DIR)/usr/share/qt/translations/ ] ; then \
 		mkdir -p $(TARGET_DIR)/usr/share/qt/translations ; \
 		cp -dpfr $(STAGING_DIR)/usr/share/qt/translations/* $(TARGET_DIR)/usr/share/qt/translations ; \
 	fi
 endef
+endif
 
 define QT_INSTALL_TARGET_CMDS
 	$(QT_INSTALL_TARGET_LIBS)
@@ -680,16 +690,6 @@ define QT_INSTALL_TARGET_CMDS
 	$(QT_INSTALL_TARGET_FONTS_TTF)
 	$(QT_INSTALL_TARGET_POWERVR)
 	$(QT_INSTALL_TARGET_TRANSLATIONS)
-endef
-
-define QT_CLEAN_CMDS
-	-$(MAKE) -C $(@D) clean
-endef
-
-define QT_UNINSTALL_TARGET_CMDS
-	-rm -rf $(TARGET_DIR)/usr/lib/fonts
-	-rm $(TARGET_DIR)/usr/lib/libQt*.so.*
-	-rm $(TARGET_DIR)/usr/lib/libphonon.so.*
 endef
 
 $(eval $(generic-package))

@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-UBOOT_TOOLS_VERSION = 2013.10
+UBOOT_TOOLS_VERSION = 2014.07
 UBOOT_TOOLS_SOURCE  = u-boot-$(UBOOT_TOOLS_VERSION).tar.bz2
 UBOOT_TOOLS_SITE    = ftp://ftp.denx.de/pub/u-boot
 UBOOT_TOOLS_LICENSE = GPLv2+
@@ -12,11 +12,16 @@ UBOOT_TOOLS_LICENSE_FILES = Licenses/gpl-2.0.txt
 
 define UBOOT_TOOLS_BUILD_CMDS
 	$(MAKE) -C $(@D) 			\
-		HOSTCC="$(TARGET_CC)"		\
-		HOSTCFLAGS="$(TARGET_CFLAGS)"	\
-		HOSTLDFLAGS="$(TARGET_LDFLAGS)"	\
-		HOSTSTRIP=true			\
-		tools env
+		CROSS_COMPILE="$(TARGET_CROSS)"	\
+		CFLAGS="$(TARGET_CFLAGS)"	\
+		LDFLAGS="$(TARGET_LDFLAGS)"	\
+		CROSS_BUILD_TOOLS=y		\
+		tools-only
+	$(MAKE) -C $(@D) 			\
+		CROSS_COMPILE="$(TARGET_CROSS)"	\
+		CFLAGS="$(TARGET_CFLAGS)"	\
+		LDFLAGS="$(TARGET_LDFLAGS)"	\
+		env no-dot-config-targets=env
 endef
 
 ifeq ($(BR2_PACKAGE_UBOOT_TOOLS_MKIMAGE),y)
@@ -44,17 +49,12 @@ define UBOOT_TOOLS_INSTALL_TARGET_CMDS
 	$(UBOOT_TOOLS_INSTALL_FWPRINTENV)
 endef
 
-define UBOOT_TOOLS_UNINSTALL_TARGET_CMDS
-	rm -f $(addprefix $(TARGET_DIR)/,\
-		usr/bin/mkimage usr/sbin/fw_printenv usr/sbin/fw_setenv)
-endef
-
 define HOST_UBOOT_TOOLS_BUILD_CMDS
 	$(MAKE1) -C $(@D) 			\
 		HOSTCC="$(HOSTCC)"		\
 		HOSTCFLAGS="$(HOST_CFLAGS)"	\
 		HOSTLDFLAGS="$(HOST_LDFLAGS)"	\
-		tools
+		tools-only
 endef
 
 define HOST_UBOOT_TOOLS_INSTALL_CMDS

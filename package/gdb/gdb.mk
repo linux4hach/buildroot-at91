@@ -7,29 +7,23 @@
 GDB_VERSION = $(call qstrip,$(BR2_GDB_VERSION))
 GDB_SITE    = $(BR2_GNU_MIRROR)/gdb
 
-# When no version is defined, it means that cross-gdb for the host has
-# not been enabled, and we will only build gdbserver or gdb for the
-# target. In this case, use the latest available version
-# automatically.
-ifeq ($(GDB_VERSION),)
-ifeq ($(BR2_bfin),y)
-GDB_VERSION = 6.6a
-else ifeq ($(BR2_avr32),y)
-GDB_VERSION = 6.7.1-avr32-2.1.5
-else
-GDB_VERSION = 7.5.1
-endif
+ifeq ($(BR2_arc),y)
+GDB_SITE = $(call github,foss-for-synopsys-dwc-arc-processors,gdb,$(GDB_VERSION))
+GDB_SOURCE = gdb-$(GDB_VERSION).tar.gz
+GDB_FROM_GIT = y
 endif
 
-ifeq ($(BR2_arc),y)
-GDB_SITE = $(BR2_ARC_SITE)
+ifeq ($(BR2_microblaze),y)
+GDB_SITE = $(call github,Xilinx,gdb,$(GDB_VERSION))
+GDB_SOURCE = gdb-$(GDB_VERSION).tar.gz
+GDB_FROM_GIT = y
 endif
 
 ifeq ($(GDB_VERSION),6.7.1-avr32-2.1.5)
-GDB_SITE = ftp://www.at91.com/pub/buildroot/
+GDB_SITE = ftp://www.at91.com/pub/buildroot
 endif
 
-GDB_SOURCE = gdb-$(GDB_VERSION).tar.bz2
+GDB_SOURCE ?= gdb-$(GDB_VERSION).tar.bz2
 GDB_LICENSE = GPLv2+ LGPLv2+ GPLv3+ LGPLv3+
 GDB_LICENSE_FILES = COPYING COPYING.LIB COPYING3 COPYING3.LIB
 
@@ -38,12 +32,12 @@ ifeq ($(BR2_PACKAGE_GDB_DEBUGGER),)
 GDB_SUBDIR = gdb/gdbserver
 HOST_GDB_SUBDIR = .
 else
-GDB_DEPENDENCIES = ncurses python
+GDB_DEPENDENCIES = ncurses
 endif
 
 # For the host variant, we really want to build with XML support,
 # which is needed to read XML descriptions of target architectures.
-HOST_GDB_DEPENDENCIES = host-expat python
+HOST_GDB_DEPENDENCIES = host-expat
 
 # Apply the Xtensa specific patches
 XTENSA_CORE_NAME = $(call qstrip, $(BR2_XTENSA_CORE_NAME))
@@ -56,11 +50,15 @@ GDB_PRE_PATCH_HOOKS += GDB_XTENSA_PRE_PATCH
 HOST_GDB_PRE_PATCH_HOOKS += GDB_XTENSA_PRE_PATCH
 endif
 
-
-
+# When gdb sources are fetched from the binutils-gdb repository, they
+# also contain the binutils sources, but binutils shouldn't be built,
+# so we disable it.
+GDB_DISABLE_BINUTILS_CONF_OPT = \
+	--disable-binutils \
+	--disable-ld \
+	--disable-gas
 
 GDB_CONF_ENV = \
-	ac_cv_prog_MAKEINFO=missing \
 	ac_cv_type_uintptr_t=yes \
 	gt_cv_func_gettext_libintl=yes \
 	ac_cv_func_dcgettext=yes \
@@ -77,11 +75,12 @@ GDB_CONF_OPT = \
 	--disable-gdbtk \
 	--without-x \
 	--disable-sim \
+	$(GDB_DISABLE_BINUTILS_CONF_OPT) \
 	$(if $(BR2_PACKAGE_GDB_SERVER),--enable-gdbserver) \
 	--with-curses \
 	--without-included-gettext \
-	--disable-werror \
-   
+	--disable-werror
+
 # This removes some unneeded Python scripts and XML target description
 # files that are not useful for a normal usage of the debugger.
 define GDB_REMOVE_UNNEEDED_FILES
@@ -121,9 +120,16 @@ HOST_GDB_CONF_OPT = \
 	--enable-threads \
 	--disable-werror \
 	--without-included-gettext \
-	--disable-sim \
-   --with-python=$(HOST_DIR)/usr/bin/python2.7
+	$(GDB_DISABLE_BINUTILS_CONF_OPT) \
+	--disable-sim
 
+ifeq ($(GDB_FROM_GIT),y)
+HOST_GDB_DEPENDENCIES += host-texinfo
+else
+# don't generate documentation
+GDB_CONF_ENV += ac_cv_prog_MAKEINFO=missing
+HOST_GDB_CONF_ENV += ac_cv_prog_MAKEINFO=missing
+endif
 
 # legacy $arch-linux-gdb symlink
 define HOST_GDB_ADD_SYMLINK
@@ -132,6 +138,8 @@ define HOST_GDB_ADD_SYMLINK
 endef
 
 HOST_GDB_POST_INSTALL_HOOKS += HOST_GDB_ADD_SYMLINK
+
+HOST_GDB_POST_INSTALL_HOOKS += gen_gdbinit_file
 
 $(eval $(autotools-package))
 $(eval $(host-autotools-package))

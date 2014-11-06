@@ -1,8 +1,7 @@
 // -*- mode:doc; -*-
 // vim: set syntax=asciidoc:
 
-Customization
--------------
+== Customization
 
 include::customize-rootfs.txt[]
 
@@ -17,3 +16,5 @@ include::customize-toolchain.txt[]
 include::customize-store.txt[]
 
 include::customize-packages.txt[]
+
+include::customize-outside-br.txt[]

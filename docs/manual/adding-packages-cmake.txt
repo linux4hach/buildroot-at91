@@ -1,13 +1,11 @@
 // -*- mode:doc; -*-
 // vim: set syntax=asciidoc:
 
-Infrastructure for CMake-based packages
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Infrastructure for CMake-based packages
 
 [[cmake-package-tutorial]]
 
-+cmake-package+ tutorial
-^^^^^^^^^^^^^^^^^^^^^^^^
+==== +cmake-package+ tutorial
 
 First, let's see how to write a +.mk+ file for a CMake-based package,
 with an example :
@@ -66,8 +64,7 @@ package to be built.
 
 [[cmake-package-reference]]
 
-+cmake-package+ reference
-^^^^^^^^^^^^^^^^^^^^^^^^^
+==== +cmake-package+ reference
 
 The main macro of the CMake package infrastructure is
 +cmake-package+. It is similar to the +generic-package+ macro. The ability to
@@ -125,9 +122,6 @@ typical packages will therefore only use a few of them.
   is +DESTDIR=$(TARGET_DIR) install+. The default value is correct
   for most CMake packages, but it is still possible to override it if
   needed.
-
-* +LIBFOO_CLEAN_OPT+ contains the make options used to clean the
-  package. By default, the value is +clean+.
 
 With the CMake infrastructure, all the steps required to build and
 install the packages are already defined, and they generally work well

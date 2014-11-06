@@ -113,8 +113,11 @@ ifeq ($(call qstrip,$(BR2_GCC_TARGET_ARCH)),armv6j)
 MPLAYER_CONF_OPTS += --enable-armv6
 endif
 
+ifeq ($(BR2_ARM_SOFT_FLOAT),)
 ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
 MPLAYER_CONF_OPTS += --enable-neon
+MPLAYER_CFLAGS += -mfpu=neon
+endif
 endif
 
 ifeq ($(BR2_i386),y)
@@ -165,14 +168,6 @@ endef
 
 define MPLAYER_INSTALL_TARGET_CMDS
 	$(MAKE) DESTDIR=$(TARGET_DIR) -C $(@D) install
-endef
-
-define MPLAYER_UNINSTALL_TARGET_CMDS
-	$(MAKE) DESTDIR=$(TARGET_DIR) -C $(@D) uninstall
-endef
-
-define MPLAYER_CLEAN_CMDS
-	$(MAKE) -C $(@D) clean
 endef
 
 $(eval $(generic-package))

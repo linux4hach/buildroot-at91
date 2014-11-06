@@ -6,7 +6,7 @@
 
 LIBEVAS_VERSION = $(EFL_VERSION)
 LIBEVAS_SOURCE = evas-$(LIBEVAS_VERSION).tar.bz2
-LIBEVAS_SITE = http://download.enlightenment.org/releases/
+LIBEVAS_SITE = http://download.enlightenment.org/releases
 LIBEVAS_LICENSE = BSD-2c
 LIBEVAS_LICENSE_FILES = COPYING
 
@@ -136,7 +136,7 @@ else
 LIBEVAS_CONF_OPT += --disable-cpu-sse3
 endif
 
-ifeq ($(BR2_powerpc_7400)$(BR2_powerpc_7450)$(BR2_powerpc_970),y)
+ifeq ($(BR2_POWERPC_CPU_HAS_ALTIVEC),y)
 LIBEVAS_CONF_OPT += --enable-cpu-altivec
 else
 LIBEVAS_CONF_OPT += --disable-cpu-altivec
@@ -201,11 +201,6 @@ LIBEVAS_CONF_OPT += --enable-font-loader-eet
 LIBEVAS_DEPENDENCIES += libeet
 else
 LIBEVAS_CONF_OPT += --disable-font-loader-eet
-endif
-
-# async image preload support needs threads support in toolchain
-ifneq ($(BR2_TOOLCHAIN_HAS_THREADS),y)
-LIBEVAS_CONF_OPT += --disable-async-preload
 endif
 
 # libevas installs the source code of examples on the target, which

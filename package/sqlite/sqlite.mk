@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-SQLITE_VERSION = 3080002
+SQLITE_VERSION = 3080600
 SQLITE_SOURCE = sqlite-autoconf-$(SQLITE_VERSION).tar.gz
-SQLITE_SITE = http://www.sqlite.org/2013
+SQLITE_SITE = http://www.sqlite.org/2014
 SQLITE_LICENSE = Public domain
 SQLITE_INSTALL_STAGING = YES
 
@@ -33,10 +33,6 @@ ifeq ($(BR2_PACKAGE_SQLITE_SECURE_DELETE),y)
 SQLITE_CFLAGS += -DSQLITE_SECURE_DELETE
 endif
 
-ifeq ($(BR2_xtensa),y)
-SQLITE_CFLAGS += -mtext-section-literals
-endif
-
 SQLITE_CONF_ENV = CFLAGS="$(TARGET_CFLAGS) $(SQLITE_CFLAGS)"
 
 SQLITE_CONF_OPT = \
@@ -58,17 +54,5 @@ SQLITE_CONF_OPT += --with-readline-inc="-I$(STAGING_DIR)/usr/include"
 else
 SQLITE_CONF_OPT += --disable-readline
 endif
-
-define SQLITE_UNINSTALL_TARGET_CMDS
-	rm -f $(TARGET_DIR)/usr/bin/sqlite3
-	rm -f $(TARGET_DIR)/usr/lib/libsqlite3*
-endef
-
-define SQLITE_UNINSTALL_STAGING_CMDS
-	rm -f $(STAGING_DIR)/usr/bin/sqlite3
-	rm -f $(STAGING_DIR)/usr/lib/libsqlite3*
-	rm -f $(STAGING_DIR)/usr/lib/pkgconfig/sqlite3.pc
-	rm -f $(STAGING_DIR)/usr/include/sqlite3*.h
-endef
 
 $(eval $(autotools-package))

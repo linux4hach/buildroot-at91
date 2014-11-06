@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-GPSD_VERSION = 3.9
-GPSD_SITE = http://download-mirror.savannah.gnu.org/releases/gpsd/
+GPSD_VERSION = 3.11
+GPSD_SITE = http://download-mirror.savannah.gnu.org/releases/gpsd
 GPSD_LICENSE = BSD-3c
 GPSD_LICENSE_FILES = COPYING
 GPSD_INSTALL_STAGING = YES
@@ -19,7 +19,6 @@ GPSD_SCONS_ENV = $(TARGET_CONFIGURE_OPTS)
 GPSD_SCONS_OPTS = \
 	arch=$(ARCH)\
 	prefix=/usr\
-	chrpath=no\
 	sysroot=$(STAGING_DIR)\
 	strip=no\
 	python=no
@@ -48,7 +47,7 @@ ifeq ($(BR2_PACKAGE_QT_NETWORK),y)
 	GPSD_SCONS_ENV += QMAKE="$(QT_QMAKE)"
 	GPSD_DEPENDENCIES += qt host-pkgconf
 else
-	GPSD_SCONS_OPTS += libQgpsmm=no
+	GPSD_SCONS_OPTS += qt=no
 endif
 
 # If libusb is available build it before so the package can use it
@@ -147,7 +146,7 @@ ifneq ($(BR2_PACKAGE_GPSD_TRUE_NORTH),y)
 	GPSD_SCONS_OPTS += tnt=no
 endif
 ifneq ($(BR2_PACKAGE_GPSD_UBX),y)
-	GPSD_SCONS_OPTS += ubx=no
+	GPSD_SCONS_OPTS += ublox=no
 endif
 
 # Features
@@ -222,7 +221,7 @@ define GPSD_INSTALL_STAGING_CMDS
 		install)
 endef
 
-ifeq ($(BR2_ROOTFS_DEVICE_CREATION_DYNAMIC_UDEV),y)
+ifeq ($(BR2_PACKAGE_HAS_UDEV),y)
 define GPSD_INSTALL_UDEV_RULES
 	(cd $(@D); \
 		$(GPSD_SCONS_ENV) \

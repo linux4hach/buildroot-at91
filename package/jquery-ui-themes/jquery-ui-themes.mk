@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-JQUERY_UI_THEMES_VERSION = 1.10.3
+JQUERY_UI_THEMES_VERSION = 1.10.4
 JQUERY_UI_THEMES_SITE = http://jqueryui.com/resources/download
 JQUERY_UI_THEMES_SOURCE = jquery-ui-themes-$(JQUERY_UI_THEMES_VERSION).zip
 JQUERY_UI_THEMES_LICENSE = MIT
@@ -25,10 +25,6 @@ define JQUERY_UI_THEMES_INSTALL_TARGET_CMDS
 	cp -a $(@D)/themes/$(call qstrip,$(BR2_PACKAGE_JQUERY_UI_THEMES_THEME))/images/*.png \
 		$(TARGET_DIR)/var/www/images
 	chmod 0644 $(TARGET_DIR)/var/www/images/*.png
-endef
-
-define JQUERY_UI_THEMES_UNINSTALL_TARGET_CMDS
-	$(RM) $(TARGET_DIR)/var/www/jquery-ui.css
 endef
 
 $(eval $(generic-package))

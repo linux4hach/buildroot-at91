@@ -7,7 +7,7 @@
 # Release 0.6.0 doesn't build cleanly, so use a recent
 # Git commit.
 SCONESERVER_VERSION = d58f2de88c681939554089f786e360042a30c8f8
-SCONESERVER_SITE = git://github.com/sconemad/sconeserver.git
+SCONESERVER_SITE = $(call github,sconemad,sconeserver,$(SCONESERVER_VERSION))
 SCONESERVER_LICENSE = GPLv2+
 SCONESERVER_LICENSE_FILES = COPYING
 
@@ -57,7 +57,7 @@ else
 endif
 
 ifeq ($(BR2_PACKAGE_SCONESERVER_MYSQL),y)
-	SCONESERVER_DEPENDENCIES += mysql_client
+	SCONESERVER_DEPENDENCIES += mysql
 	SCONESERVER_CONF_OPT += --with-mysql \
 		--with-mysql_config="$(STAGING_DIR)/usr/bin/mysql_config" \
 		LDFLAGS="$(TARGET_LDFLAGS) -L$(STAGING_DIR)/usr/lib/mysql"

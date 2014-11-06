@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-CHRONY_VERSION = 1.29
-CHRONY_SITE = http://download.tuxfamily.org/chrony/
+CHRONY_VERSION = 1.30
+CHRONY_SITE = http://download.tuxfamily.org/chrony
 CHRONY_LICENSE = GPLv2
 CHRONY_LICENSE_FILES = COPYING
 
@@ -39,8 +39,8 @@ define CHRONY_INSTALL_TARGET_CMDS
 	$(TARGET_MAKE_ENV) $(MAKE) -C $(@D) DESTDIR="$(TARGET_DIR)" install
 endef
 
-define CHRONY_UNINSTALL_TARGET_CMDS
-	rm -f $(TARGET_DIR)/usr/bin/chronyc $(TARGET_DIR)/usr/sbin/chronyd
+define CHRONY_INSTALL_INIT_SYSV
+	$(INSTALL) -D -m 755 package/chrony/S49chrony $(TARGET_DIR)/etc/init.d/S49chrony
 endef
 
 $(eval $(generic-package))

@@ -10,10 +10,13 @@ OPENNTPD_CONF_OPT = --with-builtin-arc4random --disable-strip
 OPENNTPD_LICENSE = MIT-like, BSD-2c, BSD-3c
 OPENNTPD_LICENSE_FILES = LICENCE
 
-define OPENNTPD_UNINSTALL_TARGET_CMDS
-	rm -f $(TARGET_DIR)/usr/sbin/ntpd
-	rm -f $(TARGET_DIR)/etc/ntpd.conf
-	rm -f $(TARGET_DIR)/usr/share/man/man?/ntpd*
+define OPENNTPD_INSTALL_INIT_SYSV
+	$(INSTALL) -m 0755 -D package/openntpd/S49ntp \
+		$(TARGET_DIR)/etc/init.d/S49ntp
+endef
+
+define OPENNTPD_USERS
+_ntp -1 _ntp -1 * - - - Network Time Protocol daemon
 endef
 
 $(eval $(autotools-package))

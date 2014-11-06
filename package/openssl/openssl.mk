@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-OPENSSL_VERSION = 1.0.1e
+OPENSSL_VERSION = 1.0.1i
 OPENSSL_SITE = http://www.openssl.org/source
 OPENSSL_LICENSE = OpenSSL or SSLeay
 OPENSSL_LICENSE_FILES = LICENSE
@@ -19,9 +19,8 @@ define OPENSSL_DISABLE_APPS
 	$(SED) '/^build_apps/! s/build_apps//' $(@D)/Makefile.org
 	$(SED) '/^DIRS=/ s/apps//' $(@D)/Makefile.org
 endef
-endif
-
 OPENSSL_PRE_CONFIGURE_HOOKS += OPENSSL_DISABLE_APPS
+endif
 
 ifeq ($(BR2_PACKAGE_CRYPTODEV_LINUX),y)
 	OPENSSL_CFLAGS += -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS
@@ -42,6 +41,12 @@ ifeq ($(ARCH),powerpc)
 ifeq ($(BR2_powerpc_401)$(BR2_powerpc_403)$(BR2_powerpc_405)$(BR2_powerpc_405fp)$(BR2_powerpc_440)$(BR2_powerpc_440fp),)
 	OPENSSL_TARGET_ARCH = ppc
 endif
+endif
+ifeq ($(ARCH),powerpc64)
+	OPENSSL_TARGET_ARCH = ppc64
+endif
+ifeq ($(ARCH),powerpc64le)
+	OPENSSL_TARGET_ARCH = ppc64le
 endif
 ifeq ($(ARCH),x86_64)
 	OPENSSL_TARGET_ARCH = x86_64
@@ -110,33 +115,30 @@ define OPENSSL_INSTALL_TARGET_CMDS
 	rm -f $(TARGET_DIR)/usr/bin/c_rehash
 endef
 
-ifneq ($(BR2_PREFER_STATIC_LIB),y)
+# libdl has no business in a static build
+ifeq ($(BR2_PREFER_STATIC_LIB),y)
+define OPENSSL_FIXUP_STATIC_PKGCONFIG
+	$(SED) 's/-ldl//' $(STAGING_DIR)/usr/lib/pkgconfig/openssl.pc
+endef
+OPENSSL_POST_INSTALL_STAGING_HOOKS += OPENSSL_FIXUP_STATIC_PKGCONFIG
+endif
 
+ifneq ($(BR2_PREFER_STATIC_LIB),y)
 # libraries gets installed read only, so strip fails
 define OPENSSL_INSTALL_FIXUPS_SHARED
 	chmod +w $(TARGET_DIR)/usr/lib/engines/lib*.so
 	for i in $(addprefix $(TARGET_DIR)/usr/lib/,libcrypto.so.* libssl.so.*); \
 	do chmod +w $$i; done
 endef
-
 OPENSSL_POST_INSTALL_TARGET_HOOKS += OPENSSL_INSTALL_FIXUPS_SHARED
-
 endif
 
+ifneq ($(BR2_PACKAGE_OPENSSL_ENGINES),y)
 define OPENSSL_REMOVE_OPENSSL_ENGINES
 	rm -rf $(TARGET_DIR)/usr/lib/engines
 endef
-
-ifneq ($(BR2_PACKAGE_OPENSSL_ENGINES),y)
 OPENSSL_POST_INSTALL_TARGET_HOOKS += OPENSSL_REMOVE_OPENSSL_ENGINES
 endif
-
-define OPENSSL_UNINSTALL_CMDS
-	rm -rf $(addprefix $(TARGET_DIR)/,etc/ssl usr/bin/openssl usr/include/openssl)
-	rm -rf $(addprefix $(TARGET_DIR)/usr/lib/,ssl engines libcrypto* libssl* pkgconfig/libcrypto.pc)
-	rm -rf $(addprefix $(STAGING_DIR)/,etc/ssl usr/bin/openssl usr/include/openssl)
-	rm -rf $(addprefix $(STAGING_DIR)/usr/lib/,ssl engines libcrypto* libssl* pkgconfig/libcrypto.pc)
-endef
 
 $(eval $(generic-package))
 $(eval $(host-generic-package))

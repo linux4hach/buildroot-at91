@@ -16,23 +16,11 @@ ifneq ($(BR2_LARGEFILE),y)
 LIBXML2_CONF_ENV = CC="$(TARGET_CC) $(TARGET_CFLAGS) -DNO_LARGEFILE_SOURCE"
 endif
 
-LIBXML2_CONF_OPT = --with-gnu-ld --without-python --without-debug
+LIBXML2_CONF_OPT = --with-gnu-ld --without-python --without-debug --without-lzma
 
 HOST_LIBXML2_DEPENDENCIES = host-pkgconf
 
-# mesa3d uses functions that are only available with debug
-ifeq ($(BR2_PACKAGE_MESA3D),y)
-HOST_LIBXML2_CONF_OPT = --with-debug
-else
-HOST_LIBXML2_CONF_OPT = --without-debug
-endif
-
-ifeq ($(BR2_PACKAGE_HOST_LIBXML2_PYTHON),y)
-HOST_LIBXML2_DEPENDENCIES += host-python
-HOST_LIBXML2_CONF_OPT += --with-python=$(HOST_DIR)/usr
-else
-HOST_LIBXML2_CONF_OPT += --without-python
-endif
+HOST_LIBXML2_CONF_OPT = --without-zlib --without-lzma --without-python
 
 ifeq ($(BR2_PACKAGE_ZLIB),y)
 LIBXML2_DEPENDENCIES += zlib

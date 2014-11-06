@@ -14,6 +14,7 @@ if BR2_PACKAGE_UTIL_LINUX
 
 config BR2_PACKAGE_UTIL_LINUX_LIBBLKID
 	select BR2_PACKAGE_UTIL_LINUX_LIBUUID
+	depends on BR2_USE_MMU # fork
 	bool "libblkid"
 	help
 	  Install libblkid.
@@ -22,6 +23,7 @@ config BR2_PACKAGE_UTIL_LINUX_LIBMOUNT
 	select BR2_PACKAGE_UTIL_LINUX_LIBBLKID
 	# libc lacks UTIME_NOW & UTIME_COMMIT
 	depends on !(BR2_microblazeel || BR2_microblazebe)
+	depends on BR2_USE_MMU # util-linux/libblkid
 	bool "libmount"
 	help
 	  Install libmount.
@@ -53,6 +55,18 @@ config BR2_PACKAGE_UTIL_LINUX_ARCH
 	bool "arch"
 	help
 	  Print machine architecture
+
+config BR2_PACKAGE_UTIL_LINUX_CHFN_CHSH
+	bool "chfn/chsh"
+	depends on (BR2_ENABLE_LOCALE && BR2_USE_WCHAR) # linux-pam
+	depends on !BR2_PREFER_STATIC_LIB
+	select BR2_PACKAGE_LINUX_PAM
+	help
+	  Change login shell, real user name and information
+
+comment "chfn/chsh needs a toolchain w/ wchar, locale, dynamic library"
+	depends on !(BR2_ENABLE_LOCALE && BR2_USE_WCHAR) \
+		|| BR2_PREFER_STATIC_LIB
 
 config BR2_PACKAGE_UTIL_LINUX_CRAMFS
 	bool "cramfs utilities"
@@ -88,13 +102,20 @@ config BR2_PACKAGE_UTIL_LINUX_KILL
 
 config BR2_PACKAGE_UTIL_LINUX_LOGIN_UTILS
 	bool "login utilities"
-	depends on BR2_ENABLE_LOCALE # linux-pam
+	depends on (BR2_ENABLE_LOCALE && BR2_USE_WCHAR) # linux-pam
+	depends on !BR2_PREFER_STATIC_LIB
 	select BR2_PACKAGE_LINUX_PAM
 	help
 	  Build login utilities (last, login, su, sulogin)
 
-comment "login utilities needs a toolchain w/ locale"
-	depends on !BR2_ENABLE_LOCALE
+comment "login utilities needs a toolchain w/ wchar, locale, dynamic library"
+	depends on !(BR2_ENABLE_LOCALE && BR2_USE_WCHAR) \
+		|| BR2_PREFER_STATIC_LIB
+
+config BR2_PACKAGE_UTIL_LINUX_LOSETUP
+	bool "losetup"
+	help
+	  Set up and control loop devices
 
 config BR2_PACKAGE_UTIL_LINUX_MESG
 	bool "mesg"
@@ -105,6 +126,11 @@ config BR2_PACKAGE_UTIL_LINUX_MOUNT
 	bool "mount/umount"
 	help
 	  Mount/unmount filesystems
+
+config BR2_PACKAGE_UTIL_LINUX_NEWGRP
+	bool "newgrp"
+	help
+	  Log in to a new group
 
 config BR2_PACKAGE_UTIL_LINUX_PIVOT_ROOT
 	bool "pivot_root"
@@ -155,6 +181,11 @@ config BR2_PACKAGE_UTIL_LINUX_UUIDD
 	bool "uuidd"
 	help
 	  UUID generation daemon
+
+config BR2_PACKAGE_UTIL_LINUX_VIPW
+	bool "vipw"
+	help
+	  Edit the password, group, shadow-password or shadow-group file
 
 config BR2_PACKAGE_UTIL_LINUX_WALL
 	bool "wall"

@@ -26,25 +26,21 @@ static char sysroot[PATH_MAX];
 
 /**
  * GCC errors out with certain combinations of arguments (examples are
- * -mabi-float={hard|soft} and -m{little|big}-endian), so we have to ensure
+ * -mfloat-abi={hard|soft} and -m{little|big}-endian), so we have to ensure
  * that we only pass the predefined one to the real compiler if the inverse
  * option isn't in the argument list.
  * This specifies the worst case number of extra arguments we might pass
+ * Currently, we have:
+ * 	-mfloat-abi=
+ * 	-march=
+ * 	-mtune=
+ * 	-mcpu=
  */
-#define EXCLUSIVE_ARGS	1
+#define EXCLUSIVE_ARGS	4
 
 static char *predef_args[] = {
 	path,
 	"--sysroot", sysroot,
-#ifdef BR_ARCH
-	"-march=" BR_ARCH,
-#endif /* BR_ARCH */
-#ifdef BR_TUNE
-	"-mtune=" BR_TUNE,
-#endif /* BR_TUNE */
-#ifdef BR_CPU
-	"-mcpu=" BR_CPU,
-#endif
 #ifdef BR_ABI
 	"-mabi=" BR_ABI,
 #endif
@@ -157,6 +153,31 @@ int main(int argc, char **argv)
 		*cur++ = "-mfloat-abi=" BR_FLOAT_ABI;
 #endif
 
+#if defined(BR_ARCH) || \
+    defined(BR_TUNE) || \
+    defined(BR_CPU)
+	/* Add our -march/cpu/tune/abi flags, but only if none are
+	 * already specified on the commandline
+	 */
+	for (i = 1; i < argc; i++) {
+		if (!strncmp(argv[i], "-march=", strlen("-march=")) ||
+		    !strncmp(argv[i], "-mtune=", strlen("-mtune=")) ||
+		    !strncmp(argv[i], "-mcpu=",  strlen("-mcpu=" )))
+			break;
+	}
+	if (i == argc) {
+#ifdef BR_ARCH
+		*cur++ = "-march=" BR_ARCH;
+#endif
+#ifdef BR_TUNE
+		*cur++ = "-mtune=" BR_TUNE;
+#endif
+#ifdef BR_CPU
+		*cur++ = "-mcpu=" BR_CPU;
+#endif
+	}
+#endif /* ARCH || TUNE || CPU */
+
 	/* append forward args */
 	memcpy(cur, &argv[1], sizeof(char *) * (argc - 1));
 	cur += argc - 1;
@@ -170,7 +191,7 @@ int main(int argc, char **argv)
 	 * set to 1          : trace all arguments on a single line
 	 * set to 2          : trace one argument per line
 	 */
-	if ((env_debug = getenv("BR_DEBUG_WRAPPER"))) {
+	if ((env_debug = getenv("BR2_DEBUG_WRAPPER"))) {
 		debug = atoi(env_debug);
 		if (debug > 0) {
 			fprintf(stderr, "Toolchain wrapper executing:");

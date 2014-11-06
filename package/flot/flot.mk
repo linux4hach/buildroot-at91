@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-FLOT_VERSION = 0.8.1
+FLOT_VERSION = 0.8.3
 FLOT_SITE = http://www.flotcharts.org/downloads
 FLOT_LICENSE = MIT
 FLOT_LICENSE_FILES = LICENSE.txt
@@ -29,10 +29,6 @@ define FLOT_INSTALL_TARGET_CMDS
 	for i in $(FLOT_FILES); do \
 		$(INSTALL) -m 0644 -D $(@D)/$$i.min.js $(TARGET_DIR)/var/www/$$i.js; \
 	done
-endef
-
-define FLOT_UNINSTALL_TARGET_CMDS
-	rm -f $(TARGET_DIR)/var/www/jquery.flot*
 endef
 
 $(eval $(generic-package))

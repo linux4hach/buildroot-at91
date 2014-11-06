@@ -4,12 +4,12 @@
 #
 ################################################################################
 
-PHP_VERSION = 5.3.27
-PHP_SOURCE = php-$(PHP_VERSION).tar.xz
+PHP_VERSION = 5.5.15
 PHP_SITE = http://www.php.net/distributions
 PHP_INSTALL_STAGING = YES
 PHP_INSTALL_STAGING_OPT = INSTALL_ROOT=$(STAGING_DIR) install
 PHP_INSTALL_TARGET_OPT = INSTALL_ROOT=$(TARGET_DIR) install
+PHP_DEPENDENCIES = host-pkgconf
 PHP_LICENSE = PHP
 PHP_LICENSE_FILES = LICENSE
 PHP_CONF_OPT =  --mandir=/usr/share/man \
@@ -19,14 +19,24 @@ PHP_CONF_OPT =  --mandir=/usr/share/man \
 		--with-config-file-path=/etc \
 		--localstatedir=/var \
 		--disable-rpath
+PHP_CONF_ENV = EXTRA_LIBS="$(PHP_EXTRA_LIBS)"
+
 ifeq ($(BR2_ENDIAN),"BIG")
-PHP_CONF_ENV = ac_cv_c_bigendian_php=yes
+PHP_CONF_ENV += ac_cv_c_bigendian_php=yes
 else
-PHP_CONF_ENV = ac_cv_c_bigendian_php=no
+PHP_CONF_ENV += ac_cv_c_bigendian_php=no
 endif
 PHP_CONFIG_SCRIPTS = php-config
 
 PHP_CFLAGS = $(TARGET_CFLAGS)
+
+# We need to force dl "detection"
+ifeq ($(BR2_PREFER_STATIC_LIB),)
+PHP_CONF_ENV += ac_cv_func_dlopen=yes ac_cv_lib_dl_dlopen=yes
+PHP_EXTRA_LIBS += -ldl
+else
+PHP_CONF_ENV += ac_cv_func_dlopen=no ac_cv_lib_dl_dlopen=no
+endif
 
 # Workaround for non-IPv6 uClibc toolchain
 ifeq ($(BR2_TOOLCHAIN_USES_UCLIBC),y)
@@ -37,6 +47,7 @@ endif
 
 PHP_CONF_OPT += $(if $(BR2_PACKAGE_PHP_CLI),,--disable-cli)
 PHP_CONF_OPT += $(if $(BR2_PACKAGE_PHP_CGI),,--disable-cgi)
+PHP_CONF_OPT += $(if $(BR2_PACKAGE_PHP_FPM),--enable-fpm,--disable-fpm)
 
 ### Extensions
 PHP_CONF_OPT += $(if $(BR2_PACKAGE_PHP_EXT_SOCKETS),--enable-sockets) \
@@ -63,7 +74,8 @@ PHP_CONF_OPT += $(if $(BR2_PACKAGE_PHP_EXT_SOCKETS),--enable-sockets) \
 		$(if $(BR2_PACKAGE_PHP_EXT_FILTER),--enable-filter) \
 		$(if $(BR2_PACKAGE_PHP_EXT_CALENDAR),--enable-calendar) \
 		$(if $(BR2_PACKAGE_PHP_EXT_FILEINFO),--enable-fileinfo) \
-		$(if $(BR2_PACKAGE_PHP_EXT_BCMATH),--enable-bcmath)
+		$(if $(BR2_PACKAGE_PHP_EXT_BCMATH),--enable-bcmath) \
+		$(if $(BR2_PACKAGE_PHP_EXT_PHAR),--enable-phar)
 
 ifeq ($(BR2_PACKAGE_PHP_EXT_OPENSSL),y)
 	PHP_CONF_OPT += --with-openssl=$(STAGING_DIR)/usr
@@ -112,7 +124,7 @@ ifeq ($(BR2_PACKAGE_PHP_EXT_INTL),y)
 	# The intl module is implemented in C++, but PHP fails to use
 	# g++ as the compiler for the final link. As a workaround,
 	# tell it to link libstdc++.
-	PHP_CONF_ENV += EXTRA_LIBS="-lstdc++"
+	PHP_EXTRA_LIBS += -lstdc++
 endif
 
 ifeq ($(BR2_PACKAGE_PHP_EXT_GMP),y)
@@ -125,25 +137,14 @@ ifeq ($(BR2_PACKAGE_PHP_EXT_READLINE),y)
 	PHP_DEPENDENCIES += readline
 endif
 
-### Legacy sqlite2 support
-ifeq ($(BR2_PACKAGE_PHP_EXT_SQLITE),y)
-	PHP_CONF_OPT += --with-sqlite
-ifneq ($(BR2_LARGEFILE),y)
-	PHP_CFLAGS += -DSQLITE_DISABLE_LFS
-endif
-ifeq ($(BR2_PACKAGE_PHP_EXT_SQLITE_UTF8),y)
-	PHP_CONF_OPT += --enable-sqlite-utf8
-endif
-endif
-
 ### Native MySQL extensions
 ifeq ($(BR2_PACKAGE_PHP_EXT_MYSQL),y)
 	PHP_CONF_OPT += --with-mysql=$(STAGING_DIR)/usr
-	PHP_DEPENDENCIES += mysql_client
+	PHP_DEPENDENCIES += mysql
 endif
 ifeq ($(BR2_PACKAGE_PHP_EXT_MYSQLI),y)
 	PHP_CONF_OPT += --with-mysqli=$(STAGING_DIR)/usr/bin/mysql_config
-	PHP_DEPENDENCIES += mysql_client
+	PHP_DEPENDENCIES += mysql
 endif
 
 ### PDO
@@ -159,7 +160,11 @@ endif
 endif
 ifeq ($(BR2_PACKAGE_PHP_EXT_PDO_MYSQL),y)
 	PHP_CONF_OPT += --with-pdo-mysql=$(STAGING_DIR)/usr
-	PHP_DEPENDENCIES += mysql_client
+	PHP_DEPENDENCIES += mysql
+endif
+ifeq ($(BR2_PACKAGE_PHP_EXT_PDO_POSTGRESQL),y)
+	PHP_CONF_OPT += --with-pdo-pgsql=$(STAGING_DIR)/usr
+	PHP_DEPENDENCIES += postgresql
 endif
 endif
 
@@ -207,6 +212,15 @@ ifeq ($(BR2_PACKAGE_PHP_EXT_SNMP),y)
 	PHP_DEPENDENCIES += netsnmp
 endif
 
+define PHP_EXTENSIONS_FIXUP
+	$(SED) "/prefix/ s:/usr:$(STAGING_DIR)/usr:" \
+		$(STAGING_DIR)/usr/bin/phpize
+	$(SED) "/extension_dir/ s:/usr:$(TARGET_DIR)/usr:" \
+		$(STAGING_DIR)/usr/bin/php-config
+endef
+
+PHP_POST_INSTALL_TARGET_HOOKS += PHP_EXTENSIONS_FIXUP
+
 define PHP_INSTALL_FIXUP
 	rm -rf $(TARGET_DIR)/usr/lib/php
 	rm -f $(TARGET_DIR)/usr/bin/phpize
@@ -217,18 +231,6 @@ define PHP_INSTALL_FIXUP
 endef
 
 PHP_POST_INSTALL_TARGET_HOOKS += PHP_INSTALL_FIXUP
-
-define PHP_UNINSTALL_STAGING_CMDS
-	rm -rf $(STAGING_DIR)/usr/include/php
-	rm -rf $(STAGING_DIR)/usr/lib/php
-	rm -f $(STAGING_DIR)/usr/bin/php*
-	rm -f $(STAGING_DIR)/usr/share/man/man1/php*.1
-endef
-
-define PHP_UNINSTALL_TARGET_CMDS
-	rm -f $(TARGET_DIR)/etc/php.ini
-	rm -f $(TARGET_DIR)/usr/bin/php*
-endef
 
 PHP_CONF_ENV += CFLAGS="$(PHP_CFLAGS)"
 

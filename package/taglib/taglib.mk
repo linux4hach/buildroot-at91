@@ -4,11 +4,15 @@
 #
 ################################################################################
 
-TAGLIB_VERSION = 1.8
-TAGLIB_SITE = http://github.com/downloads/taglib/taglib
+TAGLIB_VERSION = 1.9.1
+TAGLIB_SITE = http://taglib.github.io/releases
 TAGLIB_INSTALL_STAGING = YES
 TAGLIB_LICENSE = LGPLv2.1 MPL
 TAGLIB_LICENSE_FILES = COPYING.LGPL COPYING.MPL
+
+ifeq ($(BR2_PACKAGE_ZLIB),y)
+TAGLIB_DEPENDENCIES += zlib
+endif
 
 ifeq ($(BR2_PACKAGE_TAGLIB_ASF),y)
 TAGLIB_CONF_OPT += -DWITH_ASF=ON
