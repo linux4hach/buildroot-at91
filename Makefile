@@ -24,7 +24,10 @@
 #--------------------------------------------------------------
 
 # Set and export the version string
-export BR2_VERSION:=2013.11.HACH04
+export BR2_VERSION:=2013.11.HACH05
+
+# HACH 05 - 
+# Added libarchive to buildroot version
 
 # Check for minimal make version (note: this check will break at make 10.x)
 MIN_MAKE_VERSION=3.81
