@@ -35,14 +35,18 @@ config BR2_TARGET_AT91BOOTSTRAP3_USE_CUSTOM_CONFIG
 
 endchoice
 
+
 config BR2_TARGET_AT91BOOTSTRAP3_DEFCONFIG
-	string "Defconfig name"
+	string "AT91Sam9x5ek Defconfig Name"
+	default "at91sam9x5eknf_uboot"	
 	depends on BR2_TARGET_AT91BOOTSTRAP3_USE_DEFCONFIG
+
 	help
 	  Name of the at91bootstrap3 defconfig file to use, without the
 	  trailing _defconfig.  The defconfig is located at
 	  board/<processor>/<board>_defconfig in the at91bootstrap3
 	  tree.
+
 
 config BR2_TARGET_AT91BOOTSTRAP3_CUSTOM_CONFIG_FILE
 	string "Configuration file path"
