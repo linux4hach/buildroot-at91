@@ -1,3 +1,3 @@
 #!/bin/bash
 $BUILDROOT/support/scripts/updateOverlay.sh
-make $1
+make $1 $2
