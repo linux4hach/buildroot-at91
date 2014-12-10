@@ -1,3 +1,3 @@
-#!/bash/bin
+#!/bin/bash
 $BUILDROOT/support/scripts/updateOverlay.sh
-make
+make $1
