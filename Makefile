@@ -24,7 +24,7 @@
 #--------------------------------------------------------------
 
 # Set and export the version string
-export BR2_VERSION:=2013.11.HACH08
+export BR2_VERSION:=2013.11.HACH07
 
 # HACH 05 - 
 # Added libarchive to buildroot version
