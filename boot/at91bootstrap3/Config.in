@@ -30,6 +30,9 @@ choice
 config BR2_TARGET_AT91BOOTSTRAP3_USE_DEFCONFIG
 	bool "Using a defconfig"
 
+config BR2_TARGET_AT91BOOTSTRAP3_USE_VERSION
+  bool "Using a version"
+
 config BR2_TARGET_AT91BOOTSTRAP3_USE_CUSTOM_CONFIG
 	bool "Using a custom config file"
 
@@ -41,11 +44,13 @@ config BR2_TARGET_AT91BOOTSTRAP3_DEFCONFIG
 	default "at91sam9x5eknf_uboot"	
 	depends on BR2_TARGET_AT91BOOTSTRAP3_USE_DEFCONFIG
 
+config BR2_TARGET_AT91BOOTSTRAP3_VERSION
+  string "bootstrap version"
+  default "test"
 	help
-	  Name of the at91bootstrap3 defconfig file to use, without the
-	  trailing _defconfig.  The defconfig is located at
-	  board/<processor>/<board>_defconfig in the at91bootstrap3
-	  tree.
+	  Name of the at91bootstrap3 version to use, this can be a
+	  tag, checksum, or branch name.
+
 
 
 config BR2_TARGET_AT91BOOTSTRAP3_CUSTOM_CONFIG_FILE
