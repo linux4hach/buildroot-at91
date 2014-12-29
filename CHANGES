@@ -2429,3 +2429,6 @@
 	#293: update samba to version 3.3.3
 	#299: add shared-mime-info package
 	#307: make openssl package respect build flags
+         Hach07
+         Modified the libopinng.mk in packages to target chemicalinventory.hach.ewqg.com/files in
+         order to skip the issue of not being allowed to hit the external site by IT
