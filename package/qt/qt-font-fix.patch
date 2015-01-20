@@ -6,7 +6,7 @@ diff -Naur a/src/3rdparty/webkit/Source/WebCore/platform/graphics/qt/FontPlatfor
      const bool smallCaps = description.smallCaps();
      font.setCapitalization(smallCaps ? QFont::SmallCaps : QFont::MixedCase);
 -    font.setStyleStrategy(QFont::ForceIntegerMetrics);
-+    font.setStyleStrategy(QFont::PreferQuality);
- 
++    // font.setStyleStrategy(QFont::ForceIntegerMetrics);
+
      m_data->bold = font.bold();
      // WebKit allows font size zero but QFont does not. We will return
