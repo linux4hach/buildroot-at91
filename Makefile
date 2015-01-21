@@ -1,6 +1,4 @@
-# Makefile for buildroot
-#
-# Copyright (C) 1999-2005 by Erik Andersen <andersen@codepoet.org>
+# Makefile for buildroot # # Copyright (C) 1999-2005 by Erik Andersen <andersen@codepoet.org>
 # Copyright (C) 2006-2014 by the Buildroot developers <buildroot@uclibc.org>
 # Copyright (C) 2014 by the Buildroot developers <buildroot@buildroot.org>
 #
