@@ -1,0 +1,12 @@
+diff -ur a/src/gui/text/qfontengine_ft.cpp b/src/gui/text/qfontengine_ft.cpp
+--- a/src/gui/text/qfontengine_ft.cpp	2014-04-10 12:37:12.000000000 -0600
++++ b/src/gui/text/qfontengine_ft.cpp	2015-01-27 09:42:25.434435584 -0700
+@@ -635,7 +635,7 @@
+     antialias = true;
+     freetype = 0;
+     default_load_flags = FT_LOAD_IGNORE_GLOBAL_ADVANCE_WIDTH;
+-    default_hint_style = HintNone;
++    default_hint_style = HintFull;
+     subpixelType = Subpixel_None;
+     lcdFilterType = 0;
+ #if defined(FT_LCD_FILTER_H)
