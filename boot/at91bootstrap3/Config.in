@@ -44,6 +44,13 @@ config BR2_TARGET_AT91BOOTSTRAP3_DEFCONFIG
 	  board/<processor>/<board>_defconfig in the at91bootstrap3
 	  tree.
 
+    config BR2_TARGET_AT91BOOTSTRAP3_VERSION
+      string "bootstrap version"
+      default "at91bootstrap-3.x"
+      help
+         Name of the at91bootstrap3 version to use, this can be a
+         tag, checksum, or branch name.
+
 config BR2_TARGET_AT91BOOTSTRAP3_CUSTOM_CONFIG_FILE
 	string "Configuration file path"
 	depends on BR2_TARGET_AT91BOOTSTRAP3_USE_CUSTOM_CONFIG

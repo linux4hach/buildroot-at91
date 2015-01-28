@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-AT91BOOTSTRAP3_VERSION = v3.7.1
-AT91BOOTSTRAP3_SITE = $(call github,linux4sam,at91bootstrap,$(AT91BOOTSTRAP3_VERSION))
-
+AT91BOOTSTRAP3_VERSION = $(BR2_TARGET_AT91BOOTSTRAP3_VERSION) 
+AT91BOOTSTRAP3_SITE = $(call github,linux4hach,at91bootstrap,$(AT91BOOTSTRAP3_VERSION))
+#AT91BOOTSTRAP3_SITE = https://github.com/linux4hach/at91bootstrap.git
 AT91BOOTSTRAP3_INSTALL_IMAGES = YES
 AT91BOOTSTRAP3_INSTALL_TARGET = NO
 
