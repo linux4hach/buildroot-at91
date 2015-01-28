@@ -44,7 +44,6 @@ endef
 
 define AT91BOOTSTRAP3_INSTALL_IMAGES_CMDS
 	cp $(@D)/binaries/*.bin $(BINARIES_DIR)
-	mv $(BINARIES_DIR)/at91bootstrap.bin $(BINARIES_DIR)/bootstrap.bin
 endef
 
 $(eval $(generic-package))
