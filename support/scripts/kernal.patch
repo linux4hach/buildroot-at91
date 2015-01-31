@@ -1,0 +1,33 @@
+diff -ur linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f/arch/arm/boot/dts/at91sam9x5_lcd.dtsi linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f.b/arch/arm/boot/dts/at91sam9x5_lcd.dtsi
+--- linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f/arch/arm/boot/dts/at91sam9x5_lcd.dtsi	2015-01-30 10:56:54.000000000 -0700
++++ linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f.b/arch/arm/boot/dts/at91sam9x5_lcd.dtsi	2015-01-30 17:52:59.488797579 -0700
+@@ -49,9 +49,9 @@
+ 
+ 					pinctrl_lcd_base: lcd-base-0 {
+ 						atmel,pins =
+-							 /* AT91_PIOC 27 AT91_PERIPH_A AT91_PINCTRL_NONE LCDVSYNC */
+-							 /* AT91_PIOC 28 AT91_PERIPH_A AT91_PINCTRL_NONE LCDHSYNC */
+-							<AT91_PIOC 24 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDDISP */
++							 <AT91_PIOC 27 AT91_PERIPH_A AT91_PINCTRL_NONE /* LCDVSYNC */
++							 AT91_PIOC 28 AT91_PERIPH_A AT91_PINCTRL_NONE /* LCDHSYNC */
++							 AT91_PIOC 24 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDDISP */
+ 							 AT91_PIOC 29 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDDEN */
+ 							 AT91_PIOC 30 AT91_PERIPH_A AT91_PINCTRL_NONE>;	/* LCDPCK */
+ 					};
+diff -ur linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f/include/linux/mfd/atmel-hlcdc.h linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f.b/include/linux/mfd/atmel-hlcdc.h
+--- linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f/include/linux/mfd/atmel-hlcdc.h	2015-01-30 10:56:54.000000000 -0700
++++ linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f.b/include/linux/mfd/atmel-hlcdc.h	2015-01-30 16:32:51.617917989 -0700
+@@ -60,6 +60,13 @@
+ #define ATMEL_HLCDC_PWM			BIT(3)
+ #define ATMEL_HLCDC_SIP			BIT(4)
+ 
++#define ATMEL_HLCDC_SOF	BIT(0)
++#define ATMEL_HLCDC_SYNCDIS	BIT(1)
++#define ATMEL_HLCDC_FIFOERR	BIT(4)
++#define ATMEL_HLCDC_LAYER_STATUS(x) BIT((x) + 8)
++
++
++
+ /**
+  * Structure shared by the MFD device and its subdevices.
+  *
