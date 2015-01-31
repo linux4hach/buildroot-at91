@@ -14,9 +14,9 @@ diff -ur a/arch/arm/boot/dts/at91sam9x5_lcd.dtsi b/arch/arm/boot/dts/at91sam9x5_
  							 AT91_PIOC 29 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDDEN */
  							 AT91_PIOC 30 AT91_PERIPH_A AT91_PINCTRL_NONE>;	/* LCDPCK */
  					};
-diff -ur linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f/include/linux/mfd/atmel-hlcdc.h linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f.b/include/linux/mfd/atmel-hlcdc.h
---- linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f/include/linux/mfd/atmel-hlcdc.h	2015-01-30 10:56:54.000000000 -0700
-+++ linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f.b/include/linux/mfd/atmel-hlcdc.h	2015-01-30 16:32:51.617917989 -0700
+diff -ur a/include/linux/mfd/atmel-hlcdc.h b/include/linux/mfd/atmel-hlcdc.h
+--- a/include/linux/mfd/atmel-hlcdc.h	2015-01-30 10:56:54.000000000 -0700
++++ b/include/linux/mfd/atmel-hlcdc.h	2015-01-30 16:32:51.617917989 -0700
 @@ -60,6 +60,13 @@
  #define ATMEL_HLCDC_PWM			BIT(3)
  #define ATMEL_HLCDC_SIP			BIT(4)
