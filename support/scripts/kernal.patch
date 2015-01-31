@@ -1,6 +1,6 @@
-diff -ur linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f/arch/arm/boot/dts/at91sam9x5_lcd.dtsi linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f.b/arch/arm/boot/dts/at91sam9x5_lcd.dtsi
---- linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f/arch/arm/boot/dts/at91sam9x5_lcd.dtsi	2015-01-30 10:56:54.000000000 -0700
-+++ linux-1f57ae0ae00b7458c01bb7510a23cf1f3cee1a2f.b/arch/arm/boot/dts/at91sam9x5_lcd.dtsi	2015-01-30 17:52:59.488797579 -0700
+diff -ur a/arch/arm/boot/dts/at91sam9x5_lcd.dtsi b/arch/arm/boot/dts/at91sam9x5_lcd.dtsi
+--- a/arch/arm/boot/dts/at91sam9x5_lcd.dtsi	2015-01-30 10:56:54.000000000 -0700
++++ b/arch/arm/boot/dts/at91sam9x5_lcd.dtsi	2015-01-30 17:52:59.488797579 -0700
 @@ -49,9 +49,9 @@
  
  					pinctrl_lcd_base: lcd-base-0 {
