@@ -1,4 +1,4 @@
-# From https://www.openssl.org/source/openssl-1.0.1k.tar.gz.md5
-# From https://www.openssl.org/source/openssl-1.0.1k.tar.gz.sha1
-md5	d4f002bd22a56881340105028842ae1f	openssl-1.0.1k.tar.gz
-sha1	19d818e202558c212a9583fcdaf876995a633ddf	openssl-1.0.1k.tar.gz
+# From https://www.openssl.org/source/openssl-1.0.2.tar.gz.md5
+# From https://www.openssl.org/source/openssl-1.0.2.tar.gz.sha1
+md5 38373013fc85c790aabf8837969c5eba openssl-1.0.2.tar.gz
+sha1 2f264f7f6bb973af444cd9fc6ee65c8588f610cc openssl-1.0.2.tar.gz
