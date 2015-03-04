@@ -18,3 +18,6 @@ then
 
 fi
 
+echo "here" >> myoutput.stuff
+
+
