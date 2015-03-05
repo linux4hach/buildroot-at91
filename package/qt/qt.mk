@@ -30,7 +30,7 @@ endif
 QT_CONFIG_FILE=$(call qstrip,$(BR2_PACKAGE_QT_CONFIG_FILE))
 
 ifneq ($(QT_CONFIG_FILE),)
-QT_CONFIGURE_OPTS += -qconfig buildroot
+QT_CONFIGURE_OPTS += -qconfig buildroot 
 endif
 
 QT_CFLAGS = $(TARGET_CFLAGS)
@@ -297,6 +297,7 @@ QT_FONTS = $(addprefix $(STAGING_DIR)/usr/lib/fonts/, $(addsuffix *.qpf, \
 
 ifeq ($(BR2_PACKAGE_QT_QTFREETYPE),y)
 QT_CONFIGURE_OPTS += -qt-freetype
+QT_CONFIGURE_OPTS += -fontconfig
 else
 ifeq ($(BR2_PACKAGE_QT_SYSTEMFREETYPE),y)
 QT_CONFIGURE_OPTS += -system-freetype
