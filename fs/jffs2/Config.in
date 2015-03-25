@@ -5,6 +5,11 @@ config BR2_TARGET_ROOTFS_JFFS2
 
 if BR2_TARGET_ROOTFS_JFFS2
 
+config BR2_TARGET_ROOTFS_JFFS2_DIR
+	string "rootfs dir"
+	help
+	Leave blank for a whole rootfs, otherwise type dir_name for a specific file folder
+
 choice
 	prompt "Flash Type"
 	default BR2_TARGET_ROOTFS_JFFS2_FLASH_128
