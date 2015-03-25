@@ -4,9 +4,10 @@
 #
 ################################################################################
 
-AT91BOOTSTRAP3_VERSION = $(BR2_TARGET_AT91BOOTSTRAP3_VERSION) 
-AT91BOOTSTRAP3_SITE = $(call github,linux4hach,at91bootstrap,$(AT91BOOTSTRAP3_VERSION))
-#AT91BOOTSTRAP3_SITE = https://github.com/linux4hach/at91bootstrap.git
+AT91BOOTSTRAP3_VERSION = $(call qstrip,$(BR2_TARGET_AT91BOOTSTRAP3_VERSION)) 
+#AT91BOOTSTRAP3_SITE = $(call github,linux4hach,at91bootstrap,$(AT91BOOTSTRAP3_VERSION))
+AT91BOOTSTRAP3_SITE = https://github.com/linux4hach/at91bootstrap.git
+AT91BOOTSTRAP3_SITE_METHOD = git
 AT91BOOTSTRAP3_INSTALL_IMAGES = YES
 AT91BOOTSTRAP3_INSTALL_TARGET = NO
 
