@@ -34,17 +34,20 @@ endif
 
 ROOTFS_JFFS2_DEPENDENCIES = host-mtd
 
-ROOTFS_DIR:=$(call qstrip,$(TARGET_DIR)/$(BR2_TARGET_ROOTFS_JFFS2_DIR))
+# ROOTFS_DIR:=$(call qstrip,$(TARGET_DIR)/$(BR2_TARGET_ROOTFS_JFFS2_DIR))
 
 ifneq ($(BR2_TARGET_ROOTFS_JFFS2_SUMMARY),)
 define ROOTFS_JFFS2_CMD
-	$(MKFS_JFFS2) $(JFFS2_OPTS) -d $(ROOTFS_DIR) -o $@.nosummary && \
-	$(SUMTOOL) $(SUMTOOL_OPTS) -i $@.nosummary -o $@ && \
-	rm $@.nosummary
+	$(foreach ROOTFS_DIR, $(BR2_TARGET_ROOTFS_JFFS2_DIR), \
+	$(MKFS_JFFS2) $(JFFS2_OPTS) -d $(TARGET_DIR)/$(ROOTFS_DIR) -o $@.nosummary \; \
+	$(SUMTOOL) $(SUMTOOL_OPTS) -i $@.nosummary -o $(BINARIES_DIR)/$(subst /,_,$(ROOTFS_DIR)).jffs2 \; \
+	rm $@.nosummary; )
 endef
 else
 define ROOTFS_JFFS2_CMD
-	$(MKFS_JFFS2) $(JFFS2_OPTS) -d $(ROOTFS_DIR) -o $@
+	$(foreach ROOTFS_DIR, $(BR2_TARGET_ROOTFS_JFFS2_DIR), \
+	$(MKFS_JFFS2) $(JFFS2_OPTS) -d $(TARGET_DIR)/$(ROOTFS_DIR) -o $(BINARIES_DIR)/$(subst /,_,$(ROOTFS_DIR)).jffs2;\
+	)
 endef
 endif
 
