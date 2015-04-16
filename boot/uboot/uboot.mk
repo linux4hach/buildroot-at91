@@ -115,7 +115,7 @@ define UBOOT_BUILD_OMAP_IFT
 endef
 
 define UBOOT_INSTALL_IMAGES_CMDS
-	cp -dpf $(@D)/$(UBOOT_BIN) $(BINARIES_DIR)/
+	cp -dpf $(@D)/u-boot.bin $(BINARIES_DIR)/$(UBOOT_BIN)
 	$(if $(BR2_TARGET_UBOOT_SPL),
 		cp -dpf $(@D)/$(BR2_TARGET_UBOOT_SPL_NAME) $(BINARIES_DIR)/)
 	$(if $(BR2_TARGET_UBOOT_ENVIMAGE),
