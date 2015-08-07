@@ -10,7 +10,7 @@
 #
 #
 
-#TARGET_DIR=/opt/Programs/buildroot-at91/output/target
+TARGET_DIR=${TARGET_DIR}
 TARBALL=${HOME}/etc.tgz
 ETC_DIR=etc
 RELATIVE_VAR_DIR=var
