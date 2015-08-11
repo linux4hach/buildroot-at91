@@ -24,7 +24,7 @@
 #--------------------------------------------------------------
 
 # Set and export the version string
-export BR2_VERSION:=2013.11.HACH10
+export BR2_VERSION:=2013.11.HACH11
 
 # HACH 05 - 
 # Added libarchive to buildroot version
@@ -33,8 +33,10 @@ export BR2_VERSION:=2013.11.HACH10
 # I provided a patch to qt's webkit to attempt to allow resizing of fonts
 
 # Check for minimal make version (note: this check will break at make 10.x)
-# Hach 10
+# Hach 10 -
 # I changed the qt.mk file in order to download and use 4.8.6 instead of 4.8.5
+# Hach 11 -
+# I added some new config files for using overlays in cm130.working
 MIN_MAKE_VERSION=3.81
 ifneq ($(firstword $(sort $(MAKE_VERSION) $(MIN_MAKE_VERSION))),$(MIN_MAKE_VERSION))
 $(error You have make '$(MAKE_VERSION)' installed. GNU make >= $(MIN_MAKE_VERSION) is required)
