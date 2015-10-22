@@ -105,8 +105,8 @@ endef
 
 define UBOOT_BUILD_CMDS
 	$(TARGET_CONFIGURE_OPTS) $(UBOOT_CONFIGURE_OPTS) 	\
-		$(MAKE) -C $(@D) $(UBOOT_MAKE_OPTS) 		\
-		$(UBOOT_MAKE_TARGET)
+		$(MAKE) -C $(@D) $(UBOOT_MAKE_OPTS)  $(UBOOT_MAKE_TARGET);	\
+		$(MAKE) -C $(@D) $(UBOOT_MAKE_OPTS)  env			
 endef
 
 define UBOOT_BUILD_OMAP_IFT
@@ -116,6 +116,8 @@ endef
 
 define UBOOT_INSTALL_IMAGES_CMDS
 	cp -dpf $(@D)/u-boot.bin $(BINARIES_DIR)/$(UBOOT_BIN)
+	$(INSTALL) -m 0755 -D $(@D)/tools/env/fw_printenv $(TARGET_DIR)/usr/sbin/fw_printenv
+	ln -sf fw_printenv $(TARGET_DIR)/usr/sbin/fw_setenv
 	$(if $(BR2_TARGET_UBOOT_SPL),
 		cp -dpf $(@D)/$(BR2_TARGET_UBOOT_SPL_NAME) $(BINARIES_DIR)/)
 	$(if $(BR2_TARGET_UBOOT_ENVIMAGE),
