@@ -1,1 +1,0 @@
-/opt/Projects/Atlantis/source/CommonComponents/utilities/scripts/updateOverlay.sh
