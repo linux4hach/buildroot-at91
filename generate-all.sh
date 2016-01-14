@@ -1,3 +1,3 @@
 #! /bin/bash
-./generate-sd-images.sh "$@" 
 ./generate-flash-images.sh "$@"
+./generate-sd-images.sh "$@" 
