@@ -38,19 +38,27 @@ define NTP_PATCH_FIXUPS
 	$(SED) '/[[:space:](]rindex[[:space:]]*(/s/[[:space:]]*rindex[[:space:]]*(/ strrchr(/g' $(@D)/ntpd/*.c
 endef
 
-NTP_INSTALL_FILES_$(BR2_PACKAGE_NTP_NTP_KEYGEN) += util/ntp-keygen
-NTP_INSTALL_FILES_$(BR2_PACKAGE_NTP_NTP_WAIT) += scripts/ntp-wait
-NTP_INSTALL_FILES_$(BR2_PACKAGE_NTP_NTPDATE) += ntpdate/ntpdate
-NTP_INSTALL_FILES_$(BR2_PACKAGE_NTP_NTPDC) += ntpdc/ntpdc
-NTP_INSTALL_FILES_$(BR2_PACKAGE_NTP_NTPQ) += ntpq/ntpq
-NTP_INSTALL_FILES_$(BR2_PACKAGE_NTP_NTPSNMPD) += ntpsnmpd/ntpsnmpd
-NTP_INSTALL_FILES_$(BR2_PACKAGE_NTP_NTPTRACE) += scripts/ntptrace
-NTP_INSTALL_FILES_$(BR2_PACKAGE_NTP_SNTP) += sntp/sntp
-NTP_INSTALL_FILES_$(BR2_PACKAGE_NTP_TICKADJ) += util/tickadj
+NTP_INSTALL_FILES_NTPKEYGEN_$(BR2_PACKAGE_NTP_NTP_KEYGEN) += util/ntp-keygen
+NTP_INSTALL_FILES_NTPWAIT_$(BR2_PACKAGE_NTP_NTP_WAIT) += scripts/ntp-wait
+NTP_INSTALL_FILES_NTPUPDATE_$(BR2_PACKAGE_NTP_NTPDATE) += ntpdate/ntpdate
+NTP_INSTALL_FILES_NTPDC_$(BR2_PACKAGE_NTP_NTPDC) += ntpdc/ntpdc
+NTP_INSTALL_FILES_NTPQ_$(BR2_PACKAGE_NTP_NTPQ) += ntpq/ntpq
+NTP_INSTALL_FILES_NTPSNMPD_$(BR2_PACKAGE_NTP_NTPSNMPD) += ntpsnmpd/ntpsnmpd
+NTP_INSTALL_FILES_NTPTRACE_$(BR2_PACKAGE_NTP_NTPTRACE) += scripts/ntptrace
+NTP_INSTALL_FILES_SNTP_$(BR2_PACKAGE_NTP_SNTP) += sntp/sntp
+NTP_INSTALL_FILES_TICKADJ_$(BR2_PACKAGE_NTP_TICKADJ) += util/tickadj
 
 define NTP_INSTALL_TARGET_CMDS
 	$(if $(BR2_PACKAGE_NTP_NTPD), install -m 755 $(@D)/ntpd/ntpd $(TARGET_DIR)/usr/sbin/ntpd)
-	test -z "$(NTP_INSTALL_FILES_y)" || install -m 755 $(addprefix $(@D)/,$(NTP_INSTALL_FILES_y)) $(TARGET_DIR)/usr/bin/
+	test -z "$(NTP_INSTALL_FILES_NTPKEYGEN_y)" || install -m 755 $(addprefix $(@D)/,$(NTP_INSTALL_FILES_NTPKEYGEN_y)) $(TARGET_DIR)/usr/bin/
+	test -z "$(NTP_INSTALL_FILES_NTPWAIT_y)" || install -m 755 $(addprefix $(@D)/,$(NTP_INSTALL_FILES_NTPWAIT_y)) $(TARGET_DIR)/usr/bin/
+	test -z "$(NTP_INSTALL_FILES_NTPUPDATE_y)" || install -m 755 $(addprefix $(@D)/,$(NTP_INSTALL_FILES_NTPUPDATE_y)) $(TARGET_DIR)/usr/bin/
+	test -z "$(NTP_INSTALL_FILES_NTPDC_y)" || install -m 755 $(addprefix $(@D)/,$(NTP_INSTALL_FILES_NTPDC_y)) $(TARGET_DIR)/usr/bin/
+	test -z "$(NTP_INSTALL_FILES_NTPQ_y)" || install -m 755 $(addprefix $(@D)/,$(NTP_INSTALL_FILES_NTPQ_y)) $(TARGET_DIR)/usr/bin/
+	test -z "$(NTP_INSTALL_FILES_NTPSNMPD_y)" || install -m 755 $(addprefix $(@D)/,$(NTP_INSTALL_FILES_NTPSNMPD_y)) $(TARGET_DIR)/usr/bin/
+	test -z "$(NTP_INSTALL_FILES_NTPTRACE_y)" || install -m 755 $(addprefix $(@D)/,$(NTP_INSTALL_FILES_NTPTRACE_y)) $(TARGET_DIR)/usr/bin/
+	test -z "$(NTP_INSTALL_FILES_SNTP_y)" || install -m 755 $(addprefix $(@D)/,$(NTP_INSTALL_FILES_SNTP_y)) $(TARGET_DIR)/usr/bin/
+	test -z "$(NTP_INSTALL_FILES_TICKADJ_y)" || install -m 755 $(addprefix $(@D)/,$(NTP_INSTALL_FILES_TICKADJ_y)) $(TARGET_DIR)/usr/bin/
 	$(if $(BR2_PACKAGE_NTP_NTPD), install -m 755 package/ntp/S49ntp $(TARGET_DIR)/etc/init.d/S49ntp)
 	@if [ ! -f $(TARGET_DIR)/etc/default/ntpd ]; then \
 		install -m 755 -d $(TARGET_DIR)/etc/default ; \
