@@ -24,7 +24,7 @@
 #--------------------------------------------------------------
 
 # Set and export the version string
-export BR2_VERSION:=2013.11.HACH13
+export BR2_VERSION:=2013.11.HACH14
 
 # HACH 05 - 
 # Added libarchive to buildroot version
@@ -41,6 +41,7 @@ export BR2_VERSION:=2013.11.HACH13
 # e2f tools added
 # Hach 13 - Enabled gtest which is the google unit test suite
 #
+# Hach 14 - Addded ntpq to defconfig
 MIN_MAKE_VERSION=3.81
 ifneq ($(firstword $(sort $(MAKE_VERSION) $(MIN_MAKE_VERSION))),$(MIN_MAKE_VERSION))
 $(error You have make '$(MAKE_VERSION)' installed. GNU make >= $(MIN_MAKE_VERSION) is required)
