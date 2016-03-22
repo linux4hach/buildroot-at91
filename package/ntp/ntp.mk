@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-NTP_VERSION = 4.2.6p5
+#NTP_VERSION = 4.2.6p5
+NTP_VERSION = 4.2.8p6
 NTP_SITE = http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2
 NTP_LICENSE = ntp license
 NTP_LICENSE_FILES = COPYRIGHT
@@ -16,7 +17,8 @@ endif
 
 NTP_CONF_OPT = --with-shared \
 		--program-transform-name=s,,, \
-		--disable-tickadj
+		--disable-tickadj \
+		--with-yielding-select=yes
 
 ifeq ($(BR2_PACKAGE_OPENSSL),y)
 	NTP_CONF_OPT += --with-crypto
@@ -33,10 +35,10 @@ else
 	NTP_CONF_OPT += --without-ntpsnmpd
 endif
 
-define NTP_PATCH_FIXUPS
-	$(SED) "s,^#if.*__GLIBC__.*_BSD_SOURCE.*$$,#if 0," $(@D)/ntpd/refclock_pcf.c
-	$(SED) '/[[:space:](]rindex[[:space:]]*(/s/[[:space:]]*rindex[[:space:]]*(/ strrchr(/g' $(@D)/ntpd/*.c
-endef
+#define NTP_PATCH_FIXUPS
+#	$(SED) "s,^#if.*__GLIBC__.*_BSD_SOURCE.*$$,#if 0," $(@D)/ntpd/refclock_pcf.c
+#	$(SED) '/[[:space:](]rindex[[:space:]]*(/s/[[:space:]]*rindex[[:space:]]*(/ strrchr(/g' $(@D)/ntpd/*.c
+#endef
 
 NTP_INSTALL_FILES_NTPKEYGEN_$(BR2_PACKAGE_NTP_NTP_KEYGEN) += util/ntp-keygen
 NTP_INSTALL_FILES_NTPWAIT_$(BR2_PACKAGE_NTP_NTP_WAIT) += scripts/ntp-wait
