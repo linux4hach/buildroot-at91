@@ -200,10 +200,16 @@ config BR2_TARGET_GENERIC_ROOT_PASSWD
 	  .config file or the build log may be distributed!
 
 config BR2_TARGET_GENERIC_NOBODY_PASSWD
-	string "Nobody password"
+	string "nobody password"
 	default ""
 	help
 	  Set the initial nobody password (in clear). It will be md5-encrypted.
+
+config BR2_TARGET_GENERIC_KEYXFER_PASSWD
+	string "keyxfer password"
+	default ""
+	help
+	  Set the initial keyxfer password (in clear). It will be md5-encrypted.
 
 config BR2_TARGET_GENERIC_GETTY
 	bool "Run a getty (login prompt) after boot"
