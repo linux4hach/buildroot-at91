@@ -17,7 +17,7 @@
 # BR2_ROOTFS_OVERLAY is defined when running 'make menuconfig' and is defined
 #                    within the 'system' section of the configure system
 
-BUILDROOT_DIR=/opt/Programs/buildroot-at91
+BUILDROOT_DIR=${BASE_DIR}
 BUILDROOT_CONFIGS_DIR=$BUILDROOT_DIR/configs
 BUILDROOT_OUTPUT_DIR=$BUILDROOT_DIR/output
 BUILDROOT_OUTPUT_TARGET_DIR=$BUILDROOT_OUTPUT_DIR/target
