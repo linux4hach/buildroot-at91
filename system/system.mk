@@ -14,7 +14,6 @@ ROOTFS_OVERLAY_DIR=/opt/Projects/cm130/rootfs_overlay
 ROOTFS_OVERLAY_ETC_DIR=$(ROOTFS_OVERLAY_DIR)/etc
 SHADOW_FILE=$(ROOTFS_OVERLAY_ETC_DIR)/shadow
 TARGET_ETC_DIR=$(TARGET_DIR)/etc
-#SHADOW_FILE=$(TARGET_ETC_DIR)/shadow
 
 target-generic-securetty:
 	grep -q '^$(TARGET_GENERIC_GETTY_PORT)$$' $(TARGET_DIR)/etc/securetty || \

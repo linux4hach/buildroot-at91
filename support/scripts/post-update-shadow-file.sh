@@ -17,37 +17,36 @@
 # BR2_ROOTFS_OVERLAY is defined when running 'make menuconfig' and is defined
 #                    within the 'system' section of the configure system
 
-BUILDROOT_DIR=${BASE_DIR}
+BUILDROOT_DIR=${PWD}
 BUILDROOT_CONFIGS_DIR=$BUILDROOT_DIR/configs
 BUILDROOT_OUTPUT_DIR=$BUILDROOT_DIR/output
 BUILDROOT_OUTPUT_TARGET_DIR=$BUILDROOT_OUTPUT_DIR/target
-DIRNAME=$(which dirname)
 TARGET_CONFIG_NAME=".config"
-TARGET_CONFIG_FILE=$BUILDROOT_CONFIGS_DIR/${TARGET_CONFIG_NAME}
+TARGET_CONFIG_FILE=$BUILDROOT_DIR/${TARGET_CONFIG_NAME}
 
-if [ -d $BUILDROOT_DIR ]
+if [ -d $BUILDROOT_DIR -a -f $TARGET_CONFIG_FILE ]
 then
-    if [ -f $TARGET_CONFIG_FILE ]
-    then
-        source $TARGET_CONFIG_FILE
-    else
-        exit 23 # could not find the config file
-    fi
+    source $TARGET_CONFIG_FILE
+else
+    exit 23 # could not find the config file
 fi
 
 ETC_DIR=etc
+ORIGINAL_ETC_DIR="${BR2_ROOTFS_OVERLAY}/${ETC_DIR}"
 HACH_ETC_DIR=usr/share/hach/etc
-TARGET_ETC_DIR=$BUILDROOT_OUTPUT_TARGET_DIR/$ETC_DIR
-RFS_HACH_ETC_DIR=${BR2_ROOTFS_OVERLAY}/$HACH_ETC_DIR
+TARGET_ETC_DIR="$BUILDROOT_OUTPUT_TARGET_DIR/$ETC_DIR"
+RFS_HACH_ETC_DIR="${BR2_ROOTFS_OVERLAY}/$HACH_ETC_DIR"
 SHADOW=shadow
-TARGET_SHADOW_FILE=$TARGET_ETC_DIR/$SHADOW
-HACH_SHADOW_FILE=$RFS_HACH_ETC_DIR/$SHADOW
+RFS_ETC_SHADOW_FILE="${RFS_HACH_ETC_DIR}/${SHADOW}"
+TARGET_SHADOW_FILE="$TARGET_ETC_DIR/$SHADOW"
+HACH_SHADOW_FILE="$RFS_HACH_ETC_DIR/$SHADOW"
 PASSWD=passwd
-RFS_PASSWD_FILE=${BR2_ROOTFS_OVERLAY}/$ETC_DIR/$PASSWD
+RFS_PASSWD_FILE="${BR2_ROOTFS_OVERLAY}/$ETC_DIR/$PASSWD"
 
 CAT=$(which cat)
 CP=$(which cp)
 CUT=$(which cut)
+DIRNAME=$(which dirname)
 ECHO=$(which echo)
 GREP=$(which grep)
 LN=$(which ln)
@@ -61,7 +60,7 @@ pusf__copy_shadow_file()
 {
     if [ -n $CP ]
     then
-        if [ -n ${BR2_ROOTFS_OVERLAY} -a -e $TARGET_SHADOW_FILE ]
+        if [ -n ${BR2_ROOTFS_OVERLAY} -a -f $TARGET_SHADOW_FILE ]
         then
             if [ -n $DIRNAME ]
             then
@@ -82,6 +81,31 @@ pusf__copy_shadow_file()
     fi
 
     return 0  # @retval 0 - successful in finding a 'move' exectuable
+}
+
+#! create symbolic link as /etc/shadow -> /usr/share/hach/etc/shadow
+pusf__symlink_etc_shadow_to_user_share_hach_etc_shadow()
+{
+    if [ -f "${RFS_ETC_SHADOW_FILE}" ]
+    then
+        if [ -n ${MV} -a -n ${LN} ]
+        then
+            ${MV} "${RFS_ETC_SHADOW_FILE}" "${HACH_ETC_SHADOW_FILE}"
+            if [ 0 -eq $? ]
+            then
+                pushd "${ORIGINAL_ETC_DIR}"
+                ${LN} -sf "${HACH_ETC_SHADOW_FILE}" "${SHADOW}"
+                popd
+            else
+                return 123 # moving the file failed
+            fi
+        else
+            return 125 # the move or link command does not exist
+        fi
+    else
+        return 127 # the RFS_SHADOW_FILE does not exist
+    fi
+
 }
 
 
