@@ -57,15 +57,6 @@ else
 	$(SED) "s,\(^nobody\):\([^:]*\):,nobody:*:," $(SHADOW_FILE)
 endif
 
-target-engradmin-passwd:
-ifneq ($(TARGET_GENERIC_ENGRADMIN_PASSWD),)
-	TARGET_GENERIC_ENGRADMIN_PASSWD_HASH=$$($(MKPASSWD) -m "$(TARGET_GENERIC_PASSWD_METHOD)" "$(TARGET_GENERIC_ENGRADMIN_PASSWD)"); \
-	$(SED) "s,\(^engr$$.admin\):\([^:]*\):,engr$$.admin:$$TARGET_GENERIC_ENGRADMIN_PASSWD_HASH:," $(SHADOW_FILE); \
-	echo "engr$$.admin - NOT empty"
-else
-	$(SED) "s,\(^engr$$.admin\):\([^:]*\):,engr$$.admin:*:," $(SHADOW_FILE) ; \
-	echo "engr$$.admin - empty"
-endif
 
 target-generic-getty-busybox:
 	$(SED) '/# GENERIC_SERIAL$$/s~^.*#~$(TARGET_GENERIC_GETTY_PORT)::respawn:/sbin/getty -L $(TARGET_GENERIC_GETTY_OPTIONS) $(TARGET_GENERIC_GETTY_PORT) $(TARGET_GENERIC_GETTY_BAUDRATE) $(TARGET_GENERIC_GETTY_TERM) #~' \
