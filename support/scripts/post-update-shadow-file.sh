@@ -17,6 +17,7 @@
 # BR2_ROOTFS_OVERLAY is defined when running 'make menuconfig' and is defined
 #                    within the 'system' section of the configure system
 
+LOGFILE=./pusf_output.out
 BUILDROOT_DIR=${PWD}
 TARGET_CONFIG_NAME="${BUILDROOT_CONFIG}"
 
@@ -91,13 +92,18 @@ pusf__symlink_etc_shadow_to_user_share_hach_etc_shadow()
 {
     if [ -f "${RFS_HACH_ETC_SHADOW_FILE}" ]
     then
-        if [ -n ${MV} -a -n ${LN} ]
+        if [ -n ${MV} -a \
+             -n ${LN} ]
         then
-            ${MV} "${RFS_ETC_SHADOW_FILE}" "${RFS_HACH_ETC_SHADOW_FILE}"
+            if [ ! -L "${RFS_ETC_SHADOW_FILE}" ]
+            then
+                ${MV} "${RFS_ETC_SHADOW_FILE}" "${RFS_HACH_ETC_SHADOW_FILE}"
+            fi
+
             if [ 0 -eq $? ]
             then
                 pushd "${RFS_ETC_DIR}"
-                ${LN} -sf ../"${HACH_ETC_DIR}/${SHADOW}" "${SHADOW}"
+                ${LN} -sf /"${HACH_ETC_DIR}/${SHADOW}" "${SHADOW}"
                 popd
             else
                 return 123 # moving the file failed
@@ -106,6 +112,8 @@ pusf__symlink_etc_shadow_to_user_share_hach_etc_shadow()
             return 125 # the move or link command does not exist
         fi
     else
+        [[ -L "${RFS_HACH_ETC_SHADOW_FILE}" ]] && return 0
+
         return 127 # the RFS_SHADOW_FILE does not exist
     fi
 
@@ -148,7 +156,8 @@ pusf__parse_file_remove_lines()
 
         if [ -n "${AppendLine}" ]
         then
-            $(${ECHO} $AppendLine >> "${InterimFile}")
+#            $(${ECHO} $AppendLine >> "${InterimFile}")
+            $("${ECHO}" $AppendLine >> "${InterimFile}")
         fi
 
         ${MV} -f "${InterimFile}" "${File}"
@@ -163,14 +172,18 @@ pusf__parse_file_remove_lines()
 #! enter some specific information into the passwd and shadow files
 pusf__update_shadow_and_passwd_files()
 {
-    if [ -n ${CAT} -a -n ${CUT} -a -n ${ECHO} -a -n ${GREP} ]
+    if [ -n ${CAT} -a \
+         -n ${CUT} -a \
+         -n ${ECHO} -a \
+         -n ${GREP} -a \
+         -n ${DIRNAME} ]
     then
         if [ -n "${BR2_ROOTFS_OVERLAY}" -a \
             -f "${RFS_HACH_ETC_SHADOW_FILE}"  -a \
             -f "${RFS_ETC_PASSWD_FILE}" ]
         then
-            local RfsSourceDir=${BR2_ROOTFS_OVERLAY}/../source
-            local RfsScriptsDir=${RfsSourceDir}/scripts
+            local RfsScriptsDir="$(${DIRNAME} ${BR2_ROOTFS_OVERLAY})/source/scripts"
+#            local RfsScriptsDir=${RfsSourceDir}/scripts
             local RfsUpdatesFile=${RfsScriptsDir}/etcFileUpdates.sh
 
             if [ -f ${RfsUpdatesFile} ]
@@ -179,10 +192,12 @@ pusf__update_shadow_and_passwd_files()
 
                 local TargetString=$(echo "${UPDATE_PASSWD_STRING}" | "${CUT}" -d':' -f1)
 
+                write_output $(basename $0) $LINENO "${RFS_HACH_ETC_SHADOW_FILE} ${TargetString} ${UPDATE_SHADOW_STRING}"
                 pusf__parse_file_remove_lines "${RFS_HACH_ETC_SHADOW_FILE}" "${TargetString}" "${UPDATE_SHADOW_STRING}"
 
                 if [ 0 -eq $? ]
                 then
+                write_output $(basename $0) $LINENO "${RFS_ETC_PASSWD_FILE} ${TargetString} ${UPDATE_PASSWD_STRING}"
                     pusf__parse_file_remove_lines "${RFS_ETC_PASSWD_FILE}" "${TargetString}" "${UPDATE_PASSWD_STRING}"
                     return $?
                 fi
@@ -193,10 +208,51 @@ pusf__update_shadow_and_passwd_files()
         return 127 #! @retval 127 - needed binaries do not exist
     fi
 
-    return 0  # @retval 0 - successful in finding a 'move' exectuable
+    return $?  # @retval 0 - successful in finding a 'move' exectuable
 }
 
 
+#! output the variables for debugging
+#
+#! @param[in] $1 - name of this file
+#! @param[in] $2 - line number this function was called from
+#! @param[in] $3 - array of strings
+pusf__output_variables()
+{
+    pusfFilename="${LOGFILE}"
+
+    echo $BUILDROOT_DIR >> "${pusfFilename}"
+    echo $TARGET_CONFIG_NAME >> "${pusfFilename}"
+    echo $BUILDROOT_CONFIGS_DIR >> "${pusfFilename}"
+    echo $BUILDROOT_OUTPUT_DIR >> "${pusfFilename}"
+    echo $BUILDROOT_OUTPUT_TARGET_DIR >> "${pusfFilename}"
+
+    echo $ETC_DIR >> "${pusfFilename}"
+    echo $PASSWD >> "${pusfFilename}"
+    echo $SHADOW >> "${pusfFilename}"
+
+    echo $RFS_ETC_DIR >> "${pusfFilename}"
+    echo $RFS_ETC_SHADOW_FILE >> "${pusfFilename}"
+    echo $RFS_ETC_PASSWD_FILE >> "${pusfFilename}"
+
+    echo $HACH_ETC_DIR >> "${pusfFilename}"
+    echo $RFS_HACH_ETC_DIR >> "${pusfFilename}"
+    echo $RFS_HACH_ETC_SHADOW_FILE >> "${pusfFilename}"
+
+    echo $BR_TARGET_ETC_DIR >> "${pusfFilename}"
+    echo $BR_TARGET_SHADOW_FILE >> "${pusfFilename}"
+
+    echo $CAT >> "${pusfFilename}"
+    echo $CP >> "${pusfFilename}"
+    echo $CUT >> "${pusfFilename}"
+    echo $DIRNAME >> "${pusfFilename}"
+    echo $ECHO >> "${pusfFilename}"
+    echo $GREP >> "${pusfFilename}"
+    echo $LN >> "${pusfFilename}"
+    echo $MV >> "${pusfFilename}"
+    echo $RM >> "${pusfFilename}"
+
+}
 
 
 
@@ -207,16 +263,6 @@ then
     then
         pusf__symlink_etc_shadow_to_user_share_hach_etc_shadow
     fi
-
-#    pusf__copy_shadow_file
-#
-#    if [ 0 -eq $? ]
-#    then
-#        pusf__update_shadow_and_passwd_files
-#        exit $?
-#    fi
-#
-#    exit $?
 else
     exit 21 #! @retval 21 - BR2_ROOTFS_OVERLAY is not populated
 fi
