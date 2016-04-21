@@ -1,7 +1,6 @@
 TARGET_GENERIC_HOSTNAME=$(call qstrip,$(BR2_TARGET_GENERIC_HOSTNAME))
 TARGET_GENERIC_ISSUE=$(call qstrip,$(BR2_TARGET_GENERIC_ISSUE))
 TARGET_GENERIC_ROOT_PASSWD=$(call qstrip,$(BR2_TARGET_GENERIC_ROOT_PASSWD))
-TARGET_GENERIC_ENGRADMIN_PASSWD=$(call qstrip,$(BR2_TARGET_GENERIC_ENGRADMIN_PASSWD))
 TARGET_GENERIC_KEYXFER_PASSWD=$(call qstrip,$(BR2_TARGET_GENERIC_KEYXFER_PASSWD))
 TARGET_GENERIC_NOBODY_PASSWD=$(call qstrip,$(BR2_TARGET_GENERIC_NOBODY_PASSWD))
 TARGET_GENERIC_PASSWD_METHOD=$(call qstrip,$(BR2_TARGET_GENERIC_PASSWD_METHOD))
@@ -10,9 +9,8 @@ TARGET_GENERIC_GETTY_BAUDRATE=$(call qstrip,$(BR2_TARGET_GENERIC_GETTY_BAUDRATE)
 TARGET_GENERIC_GETTY_TERM=$(call qstrip,$(BR2_TARGET_GENERIC_GETTY_TERM))
 TARGET_GENERIC_GETTY_OPTIONS=$(call qstrip,$(BR2_TARGET_GENERIC_GETTY_OPTIONS))
 
-ROOTFS_OVERLAY_ETC_DIR=$(BR2_ROOTFS_OVERLAY)/etc
-SHADOW_FILE=$(ROOTFS_OVERLAY_ETC_DIR)/shadow
 TARGET_ETC_DIR=$(TARGET_DIR)/etc
+SHADOW_FILE=$(TARGET_ETC_DIR)/shadow
 
 target-generic-securetty:
 	grep -q '^$(TARGET_GENERIC_GETTY_PORT)$$' $(TARGET_DIR)/etc/securetty || \
@@ -30,7 +28,6 @@ target-generic-issue:
 
 target-root-passwd: host-mkpasswd
 target-nobody-passwd: host-mkpasswd
-target-engradmin-passwd: host-mkpasswd
 target-keyxfer-passwd: host-mkpasswd
 
 target-root-passwd:
@@ -55,16 +52,6 @@ ifneq ($(TARGET_GENERIC_NOBODY_PASSWD),)
 	$(SED) "s,^nobody:[^:]:,nobody:$$TARGET_GENERIC_NOBODY_PASSWD_HASH:," $(SHADOW_FILE)
 else
 	$(SED) "s,\(^nobody\):\([^:]*\):,nobody:*:," $(SHADOW_FILE)
-endif
-
-target-engradmin-passwd:
-ifneq ($(TARGET_GENERIC_ENGRADMIN_PASSWD),)
-	TARGET_GENERIC_ENGRADMIN_PASSWD_HASH=$$($(MKPASSWD) -m "$(TARGET_GENERIC_PASSWD_METHOD)" "$(TARGET_GENERIC_ENGRADMIN_PASSWD)"); \
-	$(SED) "s,\(^engr$$.admin\):\([^:]*\):,engr$$.admin:$$TARGET_GENERIC_ENGRADMIN_PASSWD_HASH:," $(SHADOW_FILE); \
-	echo "engr$$.admin - NOT empty"
-else
-	$(SED) "s,\(^engr$$.admin\):\([^:]*\):,engr$$.admin:*:," $(SHADOW_FILE) ; \
-	echo "engr$$.admin - empty"
 endif
 
 target-generic-getty-busybox:
@@ -100,7 +87,6 @@ endif
 ifeq ($(BR2_ROOTFS_SKELETON_DEFAULT),y)
 TARGETS += target-root-passwd
 TARGETS += target-nobody-passwd
-TARGETS += target-engradmin-passwd
 TARGETS += target-keyxfer-passwd
 
 ifeq ($(BR2_TARGET_GENERIC_GETTY),y)
