@@ -43,7 +43,8 @@ export BR2_VERSION:=2013.11.HACH.16
 #
 # Hach 14 - Addded ntpq to defconfig
 # Hach 15 - Removed bash
-# Hach 16 - Removed vim and nano from the target
+# Hach 16 - Removed vim, and nano from the target
+# also removed ssh from sdcard primarily to speed up build process
 MIN_MAKE_VERSION=3.81
 ifneq ($(firstword $(sort $(MAKE_VERSION) $(MIN_MAKE_VERSION))),$(MIN_MAKE_VERSION))
 $(error You have make '$(MAKE_VERSION)' installed. GNU make >= $(MIN_MAKE_VERSION) is required)
