@@ -24,38 +24,46 @@ SSH_PUBLIC_KEY_FILES="${TARGET_DIR}/usr/share/hach/etc/*.pub"
 VAR_EMPTY_LOCATION="${TARGET_DIR}/var/empty"
 USR_SHARE_HACH_BIN_NTP_COPY_SCRIPT="${TARGET_DIR}/usr/share/hach/bin/ntpd_drift_file_copy.sh"
 
-# directories with the permissions:
-# -rwxr-xr-x
+# directories with common permissions
 for directory in "${KEYXFER_FOLDER}" \
                  "${BACKUPS_FOLDER}" \
                  "${NOBODY_FOLDER}" \
                  "${VAR_EMPTY_LOCATION}"
 do
+    # -rwxr-xr-x
     chmod 0755 "${directory}"
-    done
+done
 
 
-# .ssh directories with the permissions:
-# -rwx---r--
-#
+# .ssh directories permissions
 for sshDir in "${ROOT_SSH_FOLDER}" \
               "${BACKUPS_SSH_FOLDER}" \
               "${KEYXFER_SSH_FOLDER}" \
               "${NOBODY_SSH_FOLDER}"
 do
-    chmod 0704 "${sshDir}"
-    done
+    # -rwx---r--
+    chmod 0705 "${sshDir}"
+done
 
 
-# files with the permissions:
-# -rw----r--
+# authorized keys files permissions
 for authFile in "${ROOT_AUTHORIZED_KEYS_FILE}" \
                 "${BACKUPS_AUTHORIZED_KEYS_FILE}" \
                 "${KEYXFER_AUTHORIZED_KEYS_FILE}" \
                 "${NOBODY_AUTHORIZED_KEYS_FILE}"
 do
+    # -rw----r--
     chmod 0604 "${authFile}"
-    done
+done
+
+
+# owner only file permissions
+for ownerOnly in "${ROOT_SSH_FOLDER}" \
+                 "${USR_SHARE_HACH_BIN_NTP_COPY_SCRIPT}"
+do
+    # -rwx------
+    chmod 0700 "${ownerOnly}"
+done
 
 
 #!/bin/bash 
@@ -64,6 +72,5 @@ TIMESTAMP_FILE="${TARGET_DIR}/var/log/hach/data/timestamp.txt"
 chmod 0666 $TIMESTAMP_FILE
 chmod 0600 $SSH_PRIVATE_KEY_FILES
 chmod 0644 $SSH_PUBLIC_KEY_FILES
-chmod 0700 $USR_SHARE_HACH_BIN_NTP_COPY_SCRIPT
 
 
