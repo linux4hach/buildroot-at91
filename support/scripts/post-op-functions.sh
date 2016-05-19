@@ -15,6 +15,7 @@
 PUSF_DEBUG=0
 LOGFILE="./pusf_output.out"
 BUILDROOT_DIR=${PWD}
+
 TARGET_CONFIG_NAME="${BUILDROOT_CONFIG}"
 
 if [ -d $BUILDROOT_DIR -a -f "${BUILDROOT_DIR}/.config" ]
@@ -38,7 +39,7 @@ SHADOW="shadow"
 #                    within the 'system' section of the configure system
 RFS_ETC_DIR="${BR2_ROOTFS_OVERLAY}/${ETC_DIR}"
 RFS_ETC_SHADOW_FILE="${RFS_ETC_DIR}/${SHADOW}"
-RFS_ETC_PASSWD_FILE="${BR2_ROOTFS_OVERLAY}/${ETC_DIR}/$PASSWD"
+RFS_ETC_PASSWD_FILE="${RFS_ETC_DIR}/${PASSWD}"
 
 HACH_ETC_DIR="usr/share/hach/${ETC_DIR}"
 RFS_HACH_ETC_DIR="${BR2_ROOTFS_OVERLAY}/${HACH_ETC_DIR}"

@@ -34,17 +34,20 @@ then
     then
         source "${RFS_UPDATES_FILE}"
     fi
-
-    pusf__update_colon_delimited_file "${BR_TARGET_HACH_ETC_DIR}/${SHADOW}" \
+    for UPDATE_SHADOW_STRING in "${UPDATE_SHADOW_STRING_LIST[@]}";
+    do
+        pusf__update_colon_delimited_file "${BR_TARGET_HACH_ETC_DIR}/${SHADOW}" \
                                       "${UPDATE_SHADOW_STRING}"
+    done
     if [ 0 -ne $? ]
     then
         exit 25 # updating first colon delimited file failed
     fi
-
-    pusf__update_colon_delimited_file "${BR_TARGET_ETC_DIR}/${PASSWD}" \
+    for UPDATE_PASSWD_STRING in "${UPDATE_PASSWD_STRING_LIST[@]}";
+    do
+        pusf__update_colon_delimited_file "${BR_TARGET_ETC_DIR}/${PASSWD}" \
                                       "${UPDATE_PASSWD_STRING}"
-
+    done
     if [ 0 -ne $? ]
     then
         exit 23 # updating second colon delimited file failed

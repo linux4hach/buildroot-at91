@@ -56,10 +56,12 @@ then
             then
                 exit 17 # failed to source the update file
             fi
-
-            ____NAME="$(${ECHO} "${UPDATE_SHADOW_STRING}" | "${CUT}" -d':' -f1)"
-            pusf__parse_file_remove_lines "${PORSS_SOURCE_FILE}" \
+	    for UPDATE_SHADOW_STRING in "${UPDATE_SHADOW_STRING_LIST[@]}";
+	    do
+            	   ____NAME="$(${ECHO} "${UPDATE_SHADOW_STRING}" | "${CUT}" -d':' -f1)"
+            	   pusf__parse_file_remove_lines "${PORSS_SOURCE_FILE}" \
                                           "${____NAME}"
+	    done
         else
             exit 19 # a echo or cut do not exist
         fi
