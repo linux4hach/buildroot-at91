@@ -68,8 +68,20 @@ done
 
 #!/bin/bash 
 TIMESTAMP_FILE="${TARGET_DIR}/var/log/hach/data/timestamp.txt"
+KEYXFER_PUB_KEY_FILE="${KEYXFER_FOLDER}/keys-file.pub"
+KEYXFER_MD5SUM_FILE="${KEYXFER_FOLDER}/MD5SUM"
+KEYXFER_SH1SUM_FILE="${KEYXFER_FOLDER}/SH1SUM"
 
-chmod 0666 $TIMESTAMP_FILE
+# user access file permissions
+for otherAccessFile in "${TIMESTAMP_FILE}" \
+                 "${KEYXFER_PUB_KEY_FILE}" \
+		 "${KEYXFER_MD5SUM_FILE}" \
+		 "${KEYXFER_SH1SUM_FILE}"
+do
+    # -rw-rw-rw-
+    chmod 0666 "${otherAccessFile}"
+done
+
 chmod 0600 $SSH_PRIVATE_KEY_FILES
 chmod 0644 $SSH_PUBLIC_KEY_FILES
 
