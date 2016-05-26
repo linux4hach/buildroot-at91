@@ -26,7 +26,7 @@ SSH_PRIVATE_KEY_FILES="${TARGET_DIR}/${HACH_ETC_DIR}/ssh*"
 SSH_PUBLIC_KEY_FILES="${TARGET_DIR}/${HACH_ETC_DIR}/*.pub"
 VAR_EMPTY_LOCATION="${TARGET_DIR}/var/empty"
 USR_SHARE_HACH_BIN_NTP_COPY_SCRIPT="${TARGET_DIR}/${HACH_BIN_DIR}/ntpd_drift_file_copy.sh"
-USR_SHARE_HACH_CUSTOMER_REMOTE_BINS="${TARGET_DIR}/${HACH_BIN_DIR}/customerRemoteAccessBinaries"
+USR_SHARE_HACH_CUSTOMER_REMOTE_BINS="${TARGET_DIR}/${HACH_BIN_DIR}/customerRemoteAccessBinaries/customerRemoteAccessBinaries"
 
 # directories with common permissions
 for directory in "${KEYXFER_FOLDER}" \
