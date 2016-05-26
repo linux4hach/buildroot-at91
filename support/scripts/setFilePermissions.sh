@@ -1,5 +1,8 @@
 #!/bin/bash 
 
+HACH_DIR="usr/share/hach"
+HACH_ETC_DIR="${HACH_DIR}/etc"
+HACH_BIN_DIR="${HACH_DIR}/bin"
 ##### HOME Directories ######
 BACKUPS_FOLDER="${TARGET_DIR}/var/backups"
 KEYXFER_FOLDER="${TARGET_DIR}/var/keyxfer"
@@ -19,10 +22,11 @@ ROOT_AUTHORIZED_KEYS_FILE="${ROOT_SSH_FOLDER}/authorized_keys"
 
 ##### Miscellanious Files #####
 TIMESTAMP_FILE="${TARGET_DIR}/var/log/hach/data/timestamp.txt"
-SSH_PRIVATE_KEY_FILES="${TARGET_DIR}/usr/share/hach/etc/ssh*"
-SSH_PUBLIC_KEY_FILES="${TARGET_DIR}/usr/share/hach/etc/*.pub"
+SSH_PRIVATE_KEY_FILES="${TARGET_DIR}/${HACH_ETC_DIR}/ssh*"
+SSH_PUBLIC_KEY_FILES="${TARGET_DIR}/${HACH_ETC_DIR}/*.pub"
 VAR_EMPTY_LOCATION="${TARGET_DIR}/var/empty"
-USR_SHARE_HACH_BIN_NTP_COPY_SCRIPT="${TARGET_DIR}/usr/share/hach/bin/ntpd_drift_file_copy.sh"
+USR_SHARE_HACH_BIN_NTP_COPY_SCRIPT="${TARGET_DIR}/${HACH_BIN_DIR}/ntpd_drift_file_copy.sh"
+USR_SHARE_HACH_CUSTOMER_REMOTE_BINS="${TARGET_DIR}/${HACH_BIN_DIR}/customerRemoteAccessBinaries"
 
 # directories with common permissions
 for directory in "${KEYXFER_FOLDER}" \
@@ -36,13 +40,14 @@ done
 
 
 # .ssh directories permissions
-for sshDir in "${ROOT_SSH_FOLDER}" \
-              "${BACKUPS_SSH_FOLDER}" \
-              "${KEYXFER_SSH_FOLDER}" \
-              "${NOBODY_SSH_FOLDER}"
+for sshDirOrBin in "${ROOT_SSH_FOLDER}" \
+                   "${BACKUPS_SSH_FOLDER}" \
+                   "${KEYXFER_SSH_FOLDER}" \
+                   "${NOBODY_SSH_FOLDER}" \
+                   "${USR_SHARE_HACH_CUSTOMER_REMOTE_BINS}"
 do
-    # -rwx---r--
-    chmod 0705 "${sshDir}"
+    # -rwx---r-x
+    chmod 0705 "${sshDirOrBin}"
 done
 
 
@@ -74,9 +79,9 @@ KEYXFER_SHA1SUM_FILE="${KEYXFER_FOLDER}/SHA1SUM"
 
 # user access file permissions
 for otherAccessFile in "${TIMESTAMP_FILE}" \
-                 "${KEYXFER_PUB_KEY_FILE}" \
-		 "${KEYXFER_MD5SUM_FILE}" \
-		 "${KEYXFER_SHA1SUM_FILE}"
+                       "${KEYXFER_PUB_KEY_FILE}" \
+                       "${KEYXFER_MD5SUM_FILE}" \
+                       "${KEYXFER_SHA1SUM_FILE}"
 do
     # -rw-rw-rw-
     chmod 0666 "${otherAccessFile}"
