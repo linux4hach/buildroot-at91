@@ -21,9 +21,11 @@ NOBODY_AUTHORIZED_KEYS_FILE="${NOBODY_SSH_FOLDER}/authorized_keys"
 ROOT_AUTHORIZED_KEYS_FILE="${ROOT_SSH_FOLDER}/authorized_keys"
 
 ##### Miscellanious Files #####
-TIMESTAMP_FILE="${TARGET_DIR}/var/log/hach/data/timestamp.txt"
+KEYXFER_BASHPROFILE_FILE="${TARGET_DIR}/${KEYXFER_FOLDER}/.bash_profile"
+NOBODY_BASHPROFILE_FILE="${TARGET_DIR}/${NOBODY_FOLDER}/.bash_profile"
 SSH_PRIVATE_KEY_FILES="${TARGET_DIR}/${HACH_ETC_DIR}/ssh*"
 SSH_PUBLIC_KEY_FILES="${TARGET_DIR}/${HACH_ETC_DIR}/*.pub"
+TIMESTAMP_FILE="${TARGET_DIR}/var/log/hach/data/timestamp.txt"
 VAR_EMPTY_LOCATION="${TARGET_DIR}/var/empty"
 USR_SHARE_HACH_BIN_NTP_COPY_SCRIPT="${TARGET_DIR}/${HACH_BIN_DIR}/ntpd_drift_file_copy.sh"
 USR_SHARE_HACH_CUSTOMER_REMOTE_BINS="${TARGET_DIR}/${HACH_BIN_DIR}/customerRemoteAccessBinaries/customerRemoteAccessBinaries"
@@ -54,8 +56,10 @@ done
 # authorized keys files permissions
 for authFile in "${ROOT_AUTHORIZED_KEYS_FILE}" \
                 "${BACKUPS_AUTHORIZED_KEYS_FILE}" \
+                "${KEYXFER_BASHPROFILE_FILE}" \
                 "${KEYXFER_AUTHORIZED_KEYS_FILE}" \
-                "${NOBODY_AUTHORIZED_KEYS_FILE}"
+                "${NOBODY_AUTHORIZED_KEYS_FILE}" \
+                "${NOBODY_BASHPROFILE_FILE}"
 do
     # -rw----r--
     chmod 0604 "${authFile}"
