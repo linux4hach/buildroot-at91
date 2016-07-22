@@ -54,7 +54,7 @@ do
     then
       chmod 0705 "${sshDirOrBin}"
     else 
-      echo "${authFile} does not exist
+      echo "${authFile} does not exist"
     fi
 done
 
