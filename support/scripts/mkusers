@@ -301,10 +301,12 @@ add_one_user() {
         uid="$( generate_uid "${username}" )"
     fi
 
-    # Remove any previous instance of this user
-    for _f in "${PASSWD}" "${SHADOW}"; do
+    if [ ! -L "${SHADOW}" ]; then
+      # Remove any previous instance of this user
+      for _f in "${PASSWD}" "${SHADOW}"; do
         sed -r -i -e '/^'"${username}"':.*/d;' "${_f}"
-    done
+      done
+    fi
 
     _gid="$( get_gid "${group}" )"
     _shell="${shell}"
@@ -336,9 +338,12 @@ add_one_user() {
            "${username}" "${uid}" "${_gid}"     \
            "${comment}" "${_home}" "${_shell}"  \
            >>"${PASSWD}"
+  
+    if [ ! -L "${SHADOW}"}" ]; then
     printf "%s:%s:::::::\n"      \
            "${username}" "${_passwd}"   \
            >>"${SHADOW}"
+    fi
 
     # Add the user to its additional groups
     if [ "${groups}" != "-" ]; then
