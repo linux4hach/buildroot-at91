@@ -339,7 +339,7 @@ add_one_user() {
            "${comment}" "${_home}" "${_shell}"  \
            >>"${PASSWD}"
   
-    if [ ! -L "${SHADOW}"}" ]; then
+    if [ ! -L "${SHADOW}" ]; then
     printf "%s:%s:::::::\n"      \
            "${username}" "${_passwd}"   \
            >>"${SHADOW}"
