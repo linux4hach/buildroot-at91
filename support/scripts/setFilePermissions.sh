@@ -63,7 +63,7 @@ for authFile in "${ROOT_AUTHORIZED_KEYS_FILE}" \
                 "${NOBODY_BASHPROFILE_FILE}"
 do
     # -rw----r--
-   if [ -f ${authFile};
+   if [ -f ${authFile} ];
    then
     chmod 0604 "${authFile}"
   else
