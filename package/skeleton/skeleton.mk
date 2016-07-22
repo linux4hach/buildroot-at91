@@ -187,10 +187,11 @@ else # !BR2_TARGET_ENABLE_ROOT_LOGIN
 SKELETON_ROOT_PASSWORD = "*"
 endif
 
-define SKELETON_SET_ROOT_PASSWD
-	$(SED) s,^root:[^:]*:,root:$(SKELETON_ROOT_PASSWORD):, $(TARGET_DIR)/etc/shadow
-endef
-TARGET_FINALIZE_HOOKS += SKELETON_SET_ROOT_PASSWD
+# We do not need the root password set...so I am commenting this section out
+#define SKELETON_SET_ROOT_PASSWD
+#	$(SED) s,^root:[^:]*:,root:$(SKELETON_ROOT_PASSWORD):, $(TARGET_DIR)/etc/shadow
+#endef
+#TARGET_FINALIZE_HOOKS += SKELETON_SET_ROOT_PASSWD
 
 ifeq ($(BR2_SYSTEM_BIN_SH_NONE),y)
 define SKELETON_BIN_SH
