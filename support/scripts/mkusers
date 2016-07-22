@@ -54,9 +54,12 @@ PASSWD_METHOD="$( sed -r -e '/^BR2_TARGET_GENERIC_PASSWD_METHOD="(.*)"$/!d;'    
 #----------------------------------------------------------------------------
 get_uid() {
     local username="${1}"
+  
 
+    if [ ! -L "${SHADOW}" ]; then
     awk -F: -v username="${username}"                           \
         '$1 == username { printf( "%d\n", $3 ); }' "${PASSWD}"
+  fi
 }
 
 #----------------------------------------------------------------------------
