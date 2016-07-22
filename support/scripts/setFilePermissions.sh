@@ -63,8 +63,7 @@ for authFile in "${ROOT_AUTHORIZED_KEYS_FILE}" \
                 "${NOBODY_BASHPROFILE_FILE}"
 do
     # -rw----r--
-   if [ -f ${authFile} ];
-   then
+   if [ -e ${authFile} ]; then
     chmod 0604 "${authFile}"
   else
     echo "${authFile} does not exist"
