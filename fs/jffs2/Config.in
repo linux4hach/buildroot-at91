@@ -43,10 +43,11 @@ endchoice
 
 config BR2_TARGET_ROOTFS_JFFS2_CUSTOM_PAGESIZE
    hex "Page Size"
-   depends on BR2_TARGET_ROOTFS_CUSTOM
+   depends on BR2_TARGET_ROOTFS_JFFS2_CUSTOM
    default 0x1000
    help
       Set to pagesize of memory
+
 
 config BR2_TARGET_ROOTFS_JFFS2_CUSTOM_EBSIZE
 	hex "Erase block size"
