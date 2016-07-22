@@ -49,6 +49,7 @@ for sshDirOrBin in "${ROOT_SSH_FOLDER}" \
                    "${USR_SHARE_HACH_CUSTOMER_REMOTE_BINS}"
 do
     # -rwx---r-x
+
     chmod 0705 "${sshDirOrBin}"
 done
 
@@ -62,7 +63,12 @@ for authFile in "${ROOT_AUTHORIZED_KEYS_FILE}" \
                 "${NOBODY_BASHPROFILE_FILE}"
 do
     # -rw----r--
+   if [ -f ${authFile};
+   then
     chmod 0604 "${authFile}"
+  else
+    echo "${authFile} does not exist"
+  fi
 done
 
 
