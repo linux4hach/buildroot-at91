@@ -166,6 +166,7 @@ check_user_validity() {
         # check the user does not already exists with another uid
         # Need to split the check in two, otherwise '[' complains it
         # is missing arguments when _uid is empty
+
         if [ -n "${_uid}" ] && [ ${_uid} -ne ${uid} ]; then
             fail "user '%s' already exists with uid '%d' (wants '%d')\n" \
                  "${username}" ${_uid} ${uid}
@@ -294,7 +295,9 @@ add_one_user() {
     local _f _group _home _shell _gid _passwd
 
     # First, sanity-check the user
+    if [ ! -L "${SHADOW}" ]; then
     check_user_validity "${username}" "${uid}" "${group}" "${gid}"
+    fi
 
     # Generate a new UID if needed
     if [ ${uid} -eq -1 ]; then
