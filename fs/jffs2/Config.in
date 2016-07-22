@@ -4,6 +4,8 @@ config BR2_TARGET_ROOTFS_JFFS2
 	  Build a jffs2 root filesystem
 
 if BR2_TARGET_ROOTFS_JFFS2
+
+config BR2_TARGET_ROOTFS_JFFS2_DIR
     string "list of directories for jffs2"
     help
     Leave blank for whole rootfs, otherwise give a list of directories for specific folders
