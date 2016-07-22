@@ -50,7 +50,12 @@ for sshDirOrBin in "${ROOT_SSH_FOLDER}" \
 do
     # -rwx---r-x
 
-    chmod 0705 "${sshDirOrBin}"
+    if [ -e "$sshDirOrBin" ];
+    then
+      chmod 0705 "${sshDirOrBin}"
+    else 
+      echo "${authFile} does not exist
+    fi
 done
 
 
@@ -63,11 +68,12 @@ for authFile in "${ROOT_AUTHORIZED_KEYS_FILE}" \
                 "${NOBODY_BASHPROFILE_FILE}"
 do
     # -rw----r--
-   if [ -e "${authFile}" ]; then
+  if [ -e "$authFile" ]; then
     chmod 0604 "${authFile}"
   else
     echo "${authFile} does not exist"
   fi
+
 done
 
 
