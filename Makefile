@@ -458,6 +458,7 @@ include $(sort $(wildcard package/*/*.mk))
 include boot/common.mk
 include linux/linux.mk
 include fs/common.mk
+include system/system.mk
 
 include $(BR2_EXTERNAL)/external.mk
 
