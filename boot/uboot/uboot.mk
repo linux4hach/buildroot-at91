@@ -11,7 +11,7 @@ UBOOT_LICENSE = GPLv2+
 UBOOT_LICENSE_FILES = Licenses/gpl-2.0.txt
 
 UBOOT_INSTALL_IMAGES = YES
-UBOOT_DEFAULT_NAME = u-boot.bin
+
 ifeq ($(UBOOT_VERSION),custom)
 # Handle custom U-Boot tarballs as specified by the configuration
 UBOOT_TARBALL = $(call qstrip,$(BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION))
@@ -166,7 +166,7 @@ define UBOOT_BUILD_OMAP_IFT
 endef
 
 define UBOOT_INSTALL_IMAGES_CMDS
-	cp -dpf $(@D)/$(UBOOT_DEPENDENCIES) $(BINARIES_DIR)/
+	cp -dpf $(@D)/$(UBOOT_BIN) $(BINARIES_DIR)/
 	$(if $(BR2_TARGET_UBOOT_FORMAT_NAND),
 		cp -dpf $(@D)/$(UBOOT_MAKE_TARGET) $(BINARIES_DIR))
 	$(if $(BR2_TARGET_UBOOT_SPL),
