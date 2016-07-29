@@ -37,7 +37,7 @@ define AT91BOOTSTRAP3_BUILD_CMDS
 endef
 
 define AT91BOOTSTRAP3_INSTALL_IMAGES_CMDS
-	cp $(@D)/binaries/at91bootstrap.bin $(BINARIES_DIR)/bootsrap.bin
+	cp $(@D)/binaries/at91bootstrap.bin $(BINARIES_DIR)/bootstrap.bin
 endef
 
 ifeq ($(BR2_TARGET_AT91BOOTSTRAP3_USE_DEFCONFIG),y)
