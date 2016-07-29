@@ -147,3 +147,4 @@ target/usr
 target/var
 ..config.tmp
 .config
+.config.old
