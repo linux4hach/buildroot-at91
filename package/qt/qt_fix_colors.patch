@@ -1,0 +1,24 @@
+diff --git a/qt_fix_colors.patch b/qt-4.8.5.new/qt_fix_colors.patch
+new file mode 100644
+index 0000000..e69de29
+diff --git a/src/gui/embedded/qscreenlinuxfb_qws.cpp b/qt-4.8.5.new/src/gui/embedded/qscreenlinuxfb_qws.cpp
+index 91f1207..59afffd 100644
+--- a/src/gui/embedded/qscreenlinuxfb_qws.cpp
++++ b/src/gui/embedded/qscreenlinuxfb_qws.cpp
+@@ -1316,12 +1316,12 @@ void QLinuxFbScreen::setPixelFormat(struct fb_var_screeninfo info)
+                                        {0, 8, 0}, {0, 0, 0}};
+         const fb_bitfield bgr888[4] = {{0, 8, 0}, {8, 8, 0},
+                                        {16, 8, 0}, {0, 0, 0}};
+-        if (memcmp(rgba, rgb888, 3 * sizeof(fb_bitfield)) == 0) {
+-            format = QImage::Format_RGB888;
+-        } else if (memcmp(rgba, bgr888, 3 * sizeof(fb_bitfield)) == 0) {
++        //if (memcmp(rgba, rgb888, 3 * sizeof(fb_bitfield)) == 0) {
++       //     format = QImage::Format_RGB888;
++       // } else if (memcmp(rgba, bgr888, 3 * sizeof(fb_bitfield)) == 0) {
+             format = QImage::Format_RGB888;
+             pixeltype = QScreen::BGRPixel;
+-        }
++      //  }
+         break;
+     }
+     case 18: {
