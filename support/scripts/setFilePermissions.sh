@@ -10,7 +10,7 @@ NOBODY_FOLDER="${TARGET_DIR}/usr/share/jail"
 
 ##### SSH/SCP local directories #####
 BACKUPS_SSH_FOLDER="${BACKUPS_FOLDER}/.ssh"
-KEYXFER_SSH_FOLDER="${KEYXFER_FOLDER}/var/keyxfer/.ssh"
+KEYXFER_SSH_FOLDER="${KEYXFER_FOLDER}/.ssh"
 NOBODY_SSH_FOLDER="${NOBODY_FOLDER}/.ssh"
 ROOT_SSH_FOLDER="${TARGET_DIR}/root/.ssh"
 
