@@ -78,12 +78,14 @@ done
 #!/bin/bash 
 TIMESTAMP_FILE="${TARGET_DIR}/var/log/hach/data/timestamp.txt"
 KEYXFER_PUB_KEY_FILE="${KEYXFER_FOLDER}/keys-file.pub"
+KEYXFER_EMPTY_FILE="${KEYXFER_FOLDER}/empty"
 KEYXFER_MD5SUM_FILE="${KEYXFER_FOLDER}/MD5SUM"
 KEYXFER_SHA1SUM_FILE="${KEYXFER_FOLDER}/SHA1SUM"
 
 # user access file permissions
 for otherAccessFile in "${TIMESTAMP_FILE}" \
                        "${KEYXFER_PUB_KEY_FILE}" \
+		       "${KEYXFER_EMPTY_FILE}" \
                        "${KEYXFER_MD5SUM_FILE}" \
                        "${KEYXFER_SHA1SUM_FILE}"
 do
