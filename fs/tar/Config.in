@@ -4,6 +4,14 @@ config BR2_TARGET_ROOTFS_TAR
 	help
 	  Build a tar archive of the root filesystem
 
+if BR2_TARGET_ROOTFS_TAR
+
+config BR2_TARGET_ROOTFS_TAR_DIR
+   string "rootfs tar dir"
+   help
+   Leave blank for whole rootfs, otherwise type dir_name for a specific file folder without
+   leading forward slash
+
 choice
 	prompt "Compression method"
 	default BR2_TARGET_ROOTFS_TAR_NONE
@@ -50,3 +58,5 @@ config BR2_TARGET_ROOTFS_TAR_OPTIONS
 	help
 	  Any other flags you want to pass to tar
 	  Refer to tar --help for details
+
+endif
