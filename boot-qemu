@@ -1,5 +1,0 @@
-#! /bin/bash
-
-fsck.ext2 $BUILDROOT.qemu/output/images/rootfs.ext2
-./run-qemu -M versatilepb -kernel $BUILDROOT.qemu/output/images/zImage -drive format=raw,file=$BUILDROOT.qemu/output/images/rootfs.ext2,if=scsi -serial stdio -localtime -append "root=/dev/sda"
-
