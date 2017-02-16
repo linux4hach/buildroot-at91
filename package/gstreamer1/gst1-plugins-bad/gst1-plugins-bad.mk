@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-GST1_PLUGINS_BAD_VERSION = 1.8.2
+GST1_PLUGINS_BAD_VERSION = 1.8.3
 GST1_PLUGINS_BAD_SOURCE = gst-plugins-bad-$(GST1_PLUGINS_BAD_VERSION).tar.xz
-GST1_PLUGINS_BAD_SITE = http://gstreamer.freedesktop.org/src/gst-plugins-bad
+GST1_PLUGINS_BAD_SITE = https://gstreamer.freedesktop.org/src/gst-plugins-bad
 GST1_PLUGINS_BAD_INSTALL_STAGING = YES
 GST1_PLUGINS_BAD_LICENSE_FILES = COPYING COPYING.LIB
 # Unknown and GPL licensed plugins will append to GST1_PLUGINS_BAD_LICENSE if
@@ -650,7 +650,19 @@ endif
 
 ifeq ($(BR2_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_HLS),y)
 GST1_PLUGINS_BAD_CONF_OPTS += --enable-hls
-GST1_PLUGINS_BAD_DEPENDENCIES += gnutls
+
+ifeq ($(BR2_PACKAGE_NETTLE),y)
+GST1_PLUGINS_BAD_DEPENDENCIES += nettle
+GST1_PLUGINS_BAD_CONF_OPTS += --with-hls-crypto=nettle
+else ifeq ($(BR2_PACKAGE_LIBGCRYPT),y)
+GST1_PLUGINS_BAD_DEPENDENCIES += libgcrypt
+GST1_PLUGINS_BAD_CONF_OPTS += --with-hls-crypto=libgcrypt \
+	--with-libgcrypt-prefix=$(STAGING_DIR)/usr
+else
+GST1_PLUGINS_BAD_DEPENDENCIES += openssl
+GST1_PLUGINS_BAD_CONF_OPTS += --with-hls-crypto=openssl
+endif
+
 else
 GST1_PLUGINS_BAD_CONF_OPTS += --disable-hls
 endif

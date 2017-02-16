@@ -1,4 +1,4 @@
-From ddcd6cd622889a2d74d0a16efae8e3b2d098f717 Mon Sep 17 00:00:00 2001
+From d9d7d7cf8b27516d45c66daa1bf0a18c878c4e33 Mon Sep 17 00:00:00 2001
 From: Carlos Santos <casantos@datacom.ind.br>
 Date: Sun, 8 May 2016 11:11:39 -0300
 Subject: [PATCH] Make FIT support really optional
@@ -17,6 +17,11 @@ following changes:
   image-host.o common/image-fit.o to CONFIG_FIT=y, in tools/Makefile.
 
 Signed-off-by: Carlos Santos <casantos@datacom.ind.br>
+[fabio: adapt for 2016.07]
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+[Ricardo: fix conditional compilation and linking of the files mentioned above
+for 2016.07]
+Signed-off-by: Ricardo Martincoski <ricardo.martincoski@gmail.com>
 ---
  common/bootm.c  | 2 ++
  include/bootm.h | 2 ++
@@ -24,10 +29,10 @@ Signed-off-by: Carlos Santos <casantos@datacom.ind.br>
  3 files changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/common/bootm.c b/common/bootm.c
-index c965326..ab477ba 100644
+index 2431019..7e1adc8 100644
 --- a/common/bootm.c
 +++ b/common/bootm.c
-@@ -891,6 +891,7 @@ void memmove_wd(void *to, void *from, size_t len, ulong chunksz)
+@@ -901,6 +901,7 @@ void memmove_wd(void *to, void *from, size_t len, ulong chunksz)
  	memmove(to, from, len);
  }
  
@@ -35,7 +40,7 @@ index c965326..ab477ba 100644
  static int bootm_host_load_image(const void *fit, int req_image_type)
  {
  	const char *fit_uname_config = NULL;
-@@ -955,5 +956,6 @@ int bootm_host_load_images(const void *fit, int cfg_noffset)
+@@ -965,5 +966,6 @@ int bootm_host_load_images(const void *fit, int cfg_noffset)
  	/* Return the first error we found */
  	return err;
  }
@@ -57,7 +62,7 @@ index 4981377..94d62a1 100644
  int boot_selected_os(int argc, char * const argv[], int state,
  		     bootm_headers_t *images, boot_os_fn *boot_fn);
 diff --git a/tools/Makefile b/tools/Makefile
-index da50e1b..0a3d279 100644
+index f72294a..ccf5120 100644
 --- a/tools/Makefile
 +++ b/tools/Makefile
 @@ -54,6 +54,7 @@ mkenvimage-objs := mkenvimage.o os_support.o lib/crc32.o
@@ -68,7 +73,7 @@ index da50e1b..0a3d279 100644
  FIT_SIG_OBJS-$(CONFIG_FIT_SIGNATURE) := common/image-sig.o
  # Flattened device tree objects
  LIBFDT_OBJS := $(addprefix lib/libfdt/, \
-@@ -68,18 +69,15 @@ ROCKCHIP_OBS = lib/rc4.o rkcommon.o rkimage.o rksd.o rkspi.o
+@@ -68,16 +69,13 @@ ROCKCHIP_OBS = lib/rc4.o rkcommon.o rkimage.o rksd.o rkspi.o
  # common objs for dumpimage and mkimage
  dumpimage-mkimage-objs := aisimage.o \
  			atmelimage.o \
@@ -81,13 +86,11 @@ index da50e1b..0a3d279 100644
  			lib/fdtdec.o \
 -			fit_common.o \
 -			fit_image.o \
- 			gpimage.o \
- 			gpimage-common.o \
 -			common/image-fit.o \
 -			image-host.o \
  			common/image.o \
  			imagetool.o \
  			imximage.o \
 -- 
-2.7.4
+2.9.1
 

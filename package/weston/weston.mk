@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-WESTON_VERSION = 1.11.0
+WESTON_VERSION = 1.12.0
 WESTON_SITE = http://wayland.freedesktop.org/releases
 WESTON_SOURCE = weston-$(WESTON_VERSION).tar.xz
 WESTON_LICENSE = MIT
@@ -89,15 +89,6 @@ else
 WESTON_CONF_OPTS += --disable-drm-compositor
 endif
 
-ifeq ($(BR2_PACKAGE_WESTON_RPI),y)
-WESTON_DEPENDENCIES += rpi-userland
-WESTON_CONF_OPTS += --enable-rpi-compositor \
-	--disable-resize-optimization \
-	WESTON_NATIVE_BACKEND=rpi-backend.so
-else
-WESTON_CONF_OPTS += --disable-rpi-compositor
-endif # BR2_PACKAGE_WESTON_RPI
-
 ifeq ($(BR2_PACKAGE_WESTON_X11),y)
 WESTON_CONF_OPTS += \
 	--enable-x11-compositor \
@@ -140,6 +131,12 @@ WESTON_CONF_OPTS += --enable-junit-xml
 WESTON_DEPENDENCIES += libxml2
 else
 WESTON_CONF_OPTS += --disable-junit-xml
+endif
+
+ifeq ($(BR2_PACKAGE_WESTON_DEMO_CLIENTS),y)
+WESTON_CONF_OPTS += --enable-demo-clients-install
+else
+WESTON_CONF_OPTS += --disable-demo-clients-install
 endif
 
 $(eval $(autotools-package))

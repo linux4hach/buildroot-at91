@@ -73,7 +73,9 @@ ifeq ($(BR2_PACKAGE_SYSTEMD),y)
 XSERVER_XORG_SERVER_CONF_OPTS += \
 	--with-systemd-daemon \
 	--enable-systemd-logind
-XSERVER_XORG_SERVER_DEPENDENCIES += systemd
+XSERVER_XORG_SERVER_DEPENDENCIES += \
+	systemd \
+	xproto_dri2proto
 else
 XSERVER_XORG_SERVER_CONF_OPTS += \
 	--without-systemd-daemon \
@@ -214,7 +216,7 @@ endif
 ifeq ($(BR2_PACKAGE_XPROTO_DRI3PROTO),y)
 XSERVER_XORG_SERVER_DEPENDENCIES += xlib_libxshmfence xproto_dri3proto
 XSERVER_XORG_SERVER_CONF_OPTS += --enable-dri3
-ifeq ($(BR2_PACKAGE_LIBEPOXY),y)
+ifeq ($(BR2_PACKAGE_HAS_LIBGL)$(BR2_PACKAGE_LIBEPOXY),yy)
 XSERVER_XORG_SERVER_DEPENDENCIES += libepoxy
 XSERVER_XORG_SERVER_CONF_OPTS += --enable-glamor
 endif
