@@ -16,3 +16,4 @@
 sdcard/images/
 support/tools/procrank_linux/libpagemap/libpagemap.a
 support/tools/procrank_linux/procrank
+sdcard/build/
