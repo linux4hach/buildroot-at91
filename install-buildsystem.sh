@@ -1,7 +1,8 @@
 #! /bin/bash
 
 BASE_DIR=/opt/HachDev
-INSTALLATION_DIR=$BASE_DIR/BuildSystems/cm130 
+INSTALLATION_DIR=$BASE_DIR/BuildSystems/cm130
+CROSS_TOOLS=$INSTALLATION_DIR/buildroot-at91/output/host/usr/share/bin
 TEST_FOR_USER=$(whoami)
 GET_OWNER=$(ls -ld $INSTALATION_DIR | cut -d' ' -f3) 
 
@@ -37,4 +38,4 @@ else
    set_ownership
 fi
 
-
+ln -sf $CROSS_TOOLS ${HOME}/bin
