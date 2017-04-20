@@ -2,8 +2,9 @@
 
 BASE_DIR=/opt/HachDev
 INSTALLATION_DIR=$BASE_DIR/BuildSystems/cm130 
+TEST_FOR_USER=$(whoami)
 
-if [[ $USER == "root" ]]; then
+if [[ $TEST_FOR_USER == "root" ]]; then
    echo "Please do not run this script with sudo or as a root user!"
    exit
 fi
