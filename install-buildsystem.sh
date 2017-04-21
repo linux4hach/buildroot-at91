@@ -36,6 +36,7 @@ then
 else
    sudo mkdir -p $INSTALLATION_DIR
    set_ownership
+   copy_files
 fi
 
 ln -sf $CROSS_TOOLS ${HOME}/bin
