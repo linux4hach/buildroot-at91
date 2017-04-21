@@ -1,3 +1,5 @@
 #!/bin/bash
-cp $BUILDROOT_DIR/install-crosscompiler.sh $HOST_DIR
+cd $HOST_DIR
+cd ../..
+cp -pf install-crosscompiler.sh $HOST_DIR
 
