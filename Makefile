@@ -121,6 +121,7 @@ STAMP_DIR:=$(BASE_DIR)/stamps
 BINARIES_DIR:=$(BASE_DIR)/images
 TARGET_DIR:=$(BASE_DIR)/target
 PACKAGE_DIR:=$(TOPDIR)/package
+BUILDROOT_DIR:=$(TOPDIR)
 SCRIPTS_DIR:=$(TOPDIR)/support/scripts
 STAGING_DIR:=$(BASE_DIR)/staging
 # initial definition so that 'make clean' works for most users, even without
