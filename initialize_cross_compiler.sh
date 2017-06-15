@@ -1,6 +1,6 @@
 #!/bin/bash
 SEARCH_PATH=$PWD
-REQUIRED_PART="crosscompiler"
+REQUIRED_PART="sdk/r1307"
 if [[ ${SEARCH_PATH} != *"$REQUIRED_PART"* ]]; then
 
   echo "You are not in the required directory for this script to run, please CD to ../$REQUIRED_PART before executing this command!"
