@@ -1,5 +1,5 @@
 PROPER_TRIPLE="arm-buildroot-linux-gnueabi-"
-export BASE_PATH=/opt/HachDev/BuildSystems/cm130/buildroot-at91-crosscompile-root/output/host
+export BASE_PATH=/opt/hachdev/sdk/r1307/output/host
 export SDKTARGETSYSROOT=$BASE_PATH/usr/arm-buildroot-linux-gnueabi
 
 export PATH=$BASE_PATH/usr/arm-buildroot-linux-gnueabi/bin:$BASE_PATH/usr/bin:$PATH
