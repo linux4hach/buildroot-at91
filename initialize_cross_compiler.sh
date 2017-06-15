@@ -1,6 +1,6 @@
 #!/bin/bash
 SEARCH_PATH=$PWD
-REQUIRED_PART="buildroot-at91-crosscompile-root"
+REQUIRED_PART="crosscompiler"
 if [[ ${SEARCH_PATH} != *"$REQUIRED_PART"* ]]; then
 
   echo "You are not in the required directory for this script to run, please CD to ../$REQUIRED_PART before executing this command!"
