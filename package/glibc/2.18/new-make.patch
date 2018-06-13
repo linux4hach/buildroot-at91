@@ -1,6 +1,9 @@
-diff -ur glibc-2.18/configure.in glibc-2.18-a/configure.in
---- glibc-2.18/configure.in	2013-08-10 16:52:55.000000000 -0600
-+++ glibc-2.18-a/configure.in	2018-06-13 10:54:20.317713840 -0600
+Currently only 3.79 and 3.89 make is permitted, this code should permit using any 
+version of make
+
+diff -ur a/configure.in b/configure.in
+--- a/configure.in	2013-08-10 16:52:55.000000000 -0600
++++ b/configure.in	2018-06-13 10:54:20.317713840 -0600
 @@ -989,7 +989,7 @@
    critic_missing="$critic_missing gcc")
  AC_CHECK_PROG_VER(MAKE, gnumake gmake make, --version,
