@@ -7,6 +7,7 @@
 /..config.tmp
 *.depend
 *.o
+*.Po
 /*.patch
 /*.diff
 *.orig
@@ -14,3 +15,5 @@
 *~
 *.pyc
 .config
+.deps
+po
