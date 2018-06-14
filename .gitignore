@@ -17,3 +17,4 @@
 .config
 .deps
 po
+tools/make-3.82/make
