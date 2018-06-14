@@ -9,5 +9,5 @@ if [ ! -f ${MAKE_FILE} ]; then
    ./configure > /dev/null 2>&1
    make -j$(nproc) > /dev/null 2>&1
 fi
-echo ${MAKE_FILE}
+echo ${MAKE_DIR}
 
