@@ -14,4 +14,4 @@
 *~
 *.pyc
 .config
-tools/make-3.82/make
+tools/make-3.82/
