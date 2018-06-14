@@ -899,7 +899,7 @@ configure:7340: $? = 0
 configure:7340: result: yes
 configure:7340: checking for mktemp
 configure:7340: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/ccXxuO62.o: In function `main':
+/tmp/ccL3h9vN.o: In function `main':
 /opt/hachdev/buildsystem/r1307/buildroot-at91/tools/make-3.82/conftest.c:87: warning: the use of `mktemp' is dangerous, better use `mkstemp' or `mkdtemp'
 configure:7340: $? = 0
 configure:7340: result: yes
@@ -1011,7 +1011,7 @@ configure:7381: $? = 0
 configure:7381: result: yes
 configure:7381: checking for strcmpi
 configure:7381: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/ccuop1Lh.o: In function `main':
+/tmp/ccoMsLY1.o: In function `main':
 /opt/hachdev/buildsystem/r1307/buildroot-at91/tools/make-3.82/conftest.c:113: undefined reference to `strcmpi'
 collect2: error: ld returned 1 exit status
 configure:7381: $? = 1
@@ -1135,7 +1135,7 @@ configure: failed program was:
 configure:7381: result: no
 configure:7381: checking for strncmpi
 configure:7381: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/ccEfCcYk.o: In function `main':
+/tmp/ccoiO7Z3.o: In function `main':
 /opt/hachdev/buildsystem/r1307/buildroot-at91/tools/make-3.82/conftest.c:113: undefined reference to `strncmpi'
 collect2: error: ld returned 1 exit status
 configure:7381: $? = 1
@@ -1259,7 +1259,7 @@ configure: failed program was:
 configure:7381: result: no
 configure:7381: checking for stricmp
 configure:7381: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/ccS0kKmq.o: In function `main':
+/tmp/ccup9836.o: In function `main':
 /opt/hachdev/buildsystem/r1307/buildroot-at91/tools/make-3.82/conftest.c:113: undefined reference to `stricmp'
 collect2: error: ld returned 1 exit status
 configure:7381: $? = 1
@@ -1383,7 +1383,7 @@ configure: failed program was:
 configure:7381: result: no
 configure:7381: checking for strnicmp
 configure:7381: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/cccdJE5r.o: In function `main':
+/tmp/ccqPugvc.o: In function `main':
 /opt/hachdev/buildsystem/r1307/buildroot-at91/tools/make-3.82/conftest.c:113: undefined reference to `strnicmp'
 collect2: error: ld returned 1 exit status
 configure:7381: $? = 1
@@ -1760,7 +1760,7 @@ configure:7839: $? = 0
 configure:7839: result: yes
 configure:7845: checking for _doprnt
 configure:7845: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/ccfHbudQ.o: In function `main':
+/tmp/ccmQYLAG.o: In function `main':
 /opt/hachdev/buildsystem/r1307/buildroot-at91/tools/make-3.82/conftest.c:121: undefined reference to `_doprnt'
 collect2: error: ld returned 1 exit status
 configure:7845: $? = 1
@@ -1902,7 +1902,7 @@ configure:7908: $? = 0
 configure:7908: result: yes
 configure:7919: checking for pstat_getdynamic
 configure:7919: gcc -o conftest -g -O2   conftest.c  >&5
-/tmp/ccpu46VY.o: In function `main':
+/tmp/cccnXSmQ.o: In function `main':
 /opt/hachdev/buildsystem/r1307/buildroot-at91/tools/make-3.82/conftest.c:121: undefined reference to `pstat_getdynamic'
 collect2: error: ld returned 1 exit status
 configure:7919: $? = 1
@@ -2480,6 +2480,7 @@ config.status:1007: creating config/Makefile
 config.status:1007: creating doc/Makefile
 config.status:1007: creating w32/Makefile
 config.status:1007: creating config.h
+config.status:1184: config.h is unchanged
 config.status:1232: executing depfiles commands
 config.status:1232: executing default-1 commands
 
